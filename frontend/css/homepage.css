@@ -1,0 +1,94 @@
+nav {
+    border-color: blueviolet;
+    border-style: groove;
+    border-radius: 1px;
+}
+
+body {
+    background-color: rgba(239,227,255,255);
+}
+
+/* title + search + icon organization */
+.search-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    margin-left: -50px;
+
+}
+
+/* paper articles */
+.published > img, p {
+    display: block;
+    padding: 0;
+    text-align: center;
+    width: 200px;
+    height: auto;
+    align-items: center;
+    margin-left: 0; 
+}
+.published > p {
+    width: 200px;
+}
+
+
+
+/* icon pic + description */
+.icons {
+    margin: 50px;
+}
+
+.icons > img, p {
+    display: block;
+    padding: 0;
+    text-align: center;
+    width: 100px;
+    height: auto;
+    align-items: center;
+}
+.icons > p {
+    width: 100px;
+}
+
+
+li {
+    margin: 50px;
+}
+
+/* title */
+h1 {
+    font-size: 50px;
+}
+
+/* search bar */
+input {
+    background-color: #6a5882;
+    width: 580px;
+    height: 45px;
+    padding-left: 25px;
+    font-size: 1.3rem;
+    border-radius: 15px;
+    border: 2px solid rgb(86, 20, 148);
+    color: white;
+
+}
+
+input:hover {
+    background-color: #7a7087;
+}
+
+input:focus {
+    outline: none;
+}
+
+::placeholder {
+    color: white;
+}
+
