@@ -46,3 +46,9 @@ for (let i = 0; i < 5; i++) {
     addViewedPapers();
     addNewPapers();
   }
+
+  var searchBar = document.getElementById('search');
+  searchBar.addEventListener('input', function() {
+      // Save input data to localStorage
+      localStorage.setItem('searchQuery', searchBar.value);
+  });
