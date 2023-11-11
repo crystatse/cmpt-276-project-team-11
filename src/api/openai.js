@@ -3,7 +3,7 @@ const sendChatBtn = document.querySelector("#chatbot-input #send");
 const chatbox = document.querySelector(".chatbox");
 const chatmessages = document.querySelector("#chat-messages");
 
-const API_URL = 'http://localhost:3002/get-completions'; // Update with your server URL
+const API_URL = 'http://localhost:3002/get-completions'; 
 
 let userMessage;
 
@@ -15,7 +15,7 @@ const createChatLi = (message, className) => {
     return chatLi;
 };
 
-// openai.js
+
 
 const generateResponse = async (userMessage) => {
     try {
@@ -60,13 +60,21 @@ const handleChat = () => {
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
+    // clear input field
+    chatInput.value = '';
+
     setTimeout(() => {
         chatbox.scrollTo(0, chatbox.scrollHeight);
         generateResponse(userMessage);
-// Pass the user message content only
 
     }, 600);
 };
 
 
 sendChatBtn.addEventListener("click", handleChat);
+chatInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        handleChat();
+    }
+});
+
