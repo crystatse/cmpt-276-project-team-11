@@ -1,9 +1,9 @@
-import('dotenv').config();
-
 const chatInput = document.querySelector("#chatbot-input #user-input");
 const sendChatBtn = document.querySelector("#chatbot-input #send");
 const chatbox = document.querySelector(".chatbox");
 const chatmessages = document.querySelector("#chat-messages");
+
+const API_URL = 'http://localhost:3002/get-completions'; // Update with your server URL
 
 let userMessage;
 
@@ -15,32 +15,43 @@ const createChatLi = (message, className) => {
     return chatLi;
 };
 
-const generateResponse = (IncomingChatLI) => {
-    const API_URL = "/api/openai"; // Assuming your server is running on the same domain
+// openai.js
 
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: userMessage }],
-        }),
-    };
+const generateResponse = async (userMessage) => {
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userMessage }),
+        };
 
-    fetch(API_URL, requestOptions)
-        .then(res => res.json())
-        .then(data => {
-            const messageElement = IncomingChatLI.querySelector("p");
-            messageElement.textContent = data.choices[0].message.content;
-        })
-        .catch((error) => {
-            const messageElement = IncomingChatLI.querySelector("p");
-            messageElement.textContent = "Something went wrong! Please try again.";
-            console.log(error);
-        }).finally(() => chatbox.scrollTo(0, chatbox.scrollHeight));
+        const response = await fetch(API_URL, requestOptions);
+        const responseData = await response.json(); // Parse the response as JSON
+
+        if (response.ok) {
+            console.log('Response from server:', responseData.content);
+
+            // Update the chatbox with the generated message
+            const generatedMessage = responseData.content;
+            chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+        } else {
+            console.error('Error:', response.status, response.statusText);
+            console.log('Error response body:', responseData);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 };
+
+
+
+
+export default { generateResponse };
+
+
 
 const handleChat = () => {
     userMessage = chatInput.value.trim();
@@ -50,14 +61,12 @@ const handleChat = () => {
     chatbox.scrollTo(0, chatbox.scrollHeight);
 
     setTimeout(() => {
-        const IncomingChatLI = createChatLi("...", "incoming");
-        chatbox.appendChild(IncomingChatLI);
         chatbox.scrollTo(0, chatbox.scrollHeight);
-        generateResponse(IncomingChatLI);
+        generateResponse(userMessage);
+// Pass the user message content only
+
     }, 600);
 };
-
-sendChatBtn.addEventListener("click", handleChat);
 
 
 sendChatBtn.addEventListener("click", handleChat);
