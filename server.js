@@ -20,7 +20,7 @@ app.post('/get-completions', async (req, res) => {
         console.log('User Message:', userMessage);
 
         const chatCompletion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-3.5-turbo-16k-0613',
             messages: [
                 { role: 'user', content: userMessage } // Ensure the userMessage is correctly included in 'content'
             ]

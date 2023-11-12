@@ -36,7 +36,7 @@ const generateResponse = async (userMessage) => {
             // Update the chatbox with the generated message
             const generatedMessage = responseData.content;
             chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
-            chatbox.scrollTo(0, chatbox.scrollHeight);
+            chatmessages.scrollTo(0, chatbox.scrollHeight);
         } else {
             console.error('Error:', response.status, response.statusText);
             console.log('Error response body:', responseData);
@@ -58,16 +58,17 @@ const handleChat = () => {
     if (!userMessage) return;
 
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
-    chatbox.scrollTo(0, chatbox.scrollHeight);
+    chatmessages.scrollTo(0, chatbox.scrollHeight);
 
     // clear input field
     chatInput.value = '';
 
-    setTimeout(() => {
-        chatbox.scrollTo(0, chatbox.scrollHeight);
+    requestAnimationFrame(() => {
         generateResponse(userMessage);
 
-    }, 600);
+        // Scroll to the bottom again after receiving the incoming message
+        chatmessages.scrollTo(0, chatbox.scrollHeight);
+    });
 };
 
 
