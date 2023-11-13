@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="tempSearchResultsCss&Js/searchResultsStyles.css">
+    <link rel="stylesheet" href="../css/searchresults.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
-    <script src="tempSearchResultsCss&Js/searchResultsMain.js" defer></script>
+    <script src="../js/searchresults.js" defer></script>
     <title id = "title">Search Reults for: </title>
 </head>
 <header>
-    <input type="text" placeholder="Search for Papers..." id = "search-bar">
-    <button type="submit" onclick="search()">Search</button>
+    <!-- Nav Bar Code Start -->
+    <div class="header">
+        <div id="home_button">
+            <a class="header_button" href="index.html"><img src="../images/header_home_icon.png" width="50px" height="50px"></a>
+        </div>
+
+        <div id="header_search">
+            <input type="text" id = "search-bar" class="user-input" placeholder="Search for papers..." size="65%">
+        </div>
+
+        <div id="about_button"><a class="header_button" href="about.html">About</a></div>
+        
+    </div>
+    <!-- Nav Bar Code End -->
 </header>
 <body>
     <h1 id = "search-results-for">Search Results for: </h1>

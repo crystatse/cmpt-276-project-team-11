@@ -1,24 +1,52 @@
-header {
-    background-color: rgba(239,227,255,255);
-    padding: 10px;
-    text-align: center;
-    border: 3px solid rgba(106,88,130,255);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Nav Bar Code Start */
+.header{
+    background-color:#A58FE3;
+    height:55px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.header_button {
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
 
 }
-input[type="text"] {
-    padding: 8px;
-    margin-right: 8px;
+
+#home_button {
+    margin-left: 10px;
 }
-button {
-    padding: 8px 16px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+
+.user-input {
+    border: 0px;
+    width: 500px;
+    height: 25px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: #7A49A5;
+    padding-left: 5px;
+    color:white;
 }
+
+input::placeholder{
+    color:white;
+}
+
+#about_button{
+    height: 30px;
+    width: 60px;
+    font-size: 18px;
+    text-align: center;
+
+    background-color: #7A49A5;
+    border-radius: 7px;
+
+    margin-top: 7px;
+    margin-right: 10px;
+    padding-top: 7px;
+}
+/*Nav Bar Code End*/
 body{
     margin: 0px;
     background-color: rgba(239,227,255,255);

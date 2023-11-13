@@ -1,3 +1,13 @@
+var inputElement = document.getElementById("search-bar");
+
+inputElement.addEventListener("keydown", function (event) {
+    // Check if the pressed key is Enter (key code 13)
+    if (event.keyCode === 13) {
+        // Call your function here
+        search();
+    }
+});
+
 function search() {
 
     // Update "Search Results For:" and title tab
@@ -111,7 +121,7 @@ function displayResults(results) {
         // Create a new img element for each result
         var articleImage = document.createElement("img");
         articleImage.classList.add("article-icons"); // added to "image-div" class
-        articleImage.src = "tempSearchResultsCss&Js/Images/paper.png";
+        articleImage.src = "../images/article_icon.png";
         articleImage.alt = "Read Article Image";
         articleImage.addEventListener("click", function() {
             // Redirect to the article link when the image is clicked (temporarily functionalaity and it will be changed to go to chat page) 
