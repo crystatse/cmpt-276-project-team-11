@@ -3,54 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="stylesheet" href="homepage/homepage.css">
     <title>ResearchBuddy</title>
 </head>
 <body>
     <header>
-        <!-- Nav Bar Code Start -->
         <nav class="header">
             <div id="home_button">
-                <a class="header_button" href="../public/index.html"><img src="../icons/header_home_icon.png" width="50px" height="50px"></a>
+                <a class="header_button" href="index.html"><img src="homepage/icons/header_home_icon.png" width="50px" height="50px"></a>
             </div>
-
-            <!-- <div id="header_search">
-                <input type="text" class="user-input" placeholder="Search for papers..." size="65%">
-            </div> -->
-
-            <div id="about_button"><a class="header_button" href="../public/about.html">About</a></div>
-            
+            <div id="about_button"><a class="header_button" href="about.html">About</a></div>
         </nav>
-        <!-- Nav Bar Code End -->
     </header>
     <section class="search-wrapper"> 
         <h1>ResearchBuddy</h1>
-        <form action="">
-            <input id="search" type="text" placeholder="Search For Papers" autofocus>
+        <form action="chatbot.html">
+            <div id="header_search">
+                <input type="text" id="search"class="user-input" placeholder="Search for papers..." size="65%" autofocus>
+            </div>
         </form>
         <ul>
             <li class="icons">
-                <img src="../icons/paper_icon.png" alt="paper_icon.png">
+                <img src="homepage/icons/paper_icon.png" alt="paper_icon.png">
                 <p>Find Related Papers</p>
             </li>
             <li class="icons">
-                <img src="../icons/chat_icon.png" alt="chat_icon.png">
+                <img src="homepage/icons/chat_icon.png" alt="chat_icon.png">
                 <p>Summarize and Ask Questions</p>
             </li>
             <li class="icons">
-                <img src="../icons/cite_icon.png" alt="cite_icon.png">
+                <img src="homepage/icons/cite_icon.png" alt="cite_icon.png">
                 <p>Cite Your Sources</p>
             </li>
         </ul>
     </section>
     <section>
-        <h2>Recently Published Papers</h2>
+        <h2>Recently Published Papers:</h2>
         <ul id="recent"></ul>
     </section>
     <section>
-        <h2>Recently Viewed Papers</h2>
+        <h2>Recently Viewed Papers:</h2>
         <ul id="new"></ul>
     </section>
-    <script src="../js/homepage.js"></script>
+    <script src="homepage/homepage.js"></script>
 </body>
 </html>

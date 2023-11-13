@@ -1,5 +1,6 @@
 body {
     background-color: rgba(239,227,255,255);
+    margin: 0;
 }
 
 /* title + search + icon organization */
@@ -13,9 +14,9 @@ body {
 
 ul {
     display: flex;
+    flex-wrap: wrap;
     list-style: none;
     margin-left: -50px;
-
 }
 
 /* paper articles */
@@ -33,6 +34,10 @@ ul {
 }
 
 /* icon pic + description */
+ul > a :hover {
+    background-color: #A58FE3;
+}
+
 .icons {
     margin: 50px;
 }
@@ -55,6 +60,9 @@ li {
 
 a > li {
     margin: 0px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-radius: 10px;
 }
 
 /* title */
@@ -62,37 +70,7 @@ h1 {
     font-size: 50px;
 }
 
-/* search bar */
-input {
-    background-color: #6a5882;
-    width: 580px;
-    height: 45px;
-    padding-left: 25px;
-    font-size: 1.3rem;
-    border-radius: 15px;
-    border: 2px solid rgb(86, 20, 148);
-    color: white;
-
-}
-
-input:hover {
-    background-color: #7a7087;
-}
-
-input:focus {
-    outline: none;
-}
-
-::placeholder {
-    color: white;
-}
-
-body{
-    background-color:#efe3ff;
-    margin: 0px;
-}
-
-/* Nav Bar Code Start */
+/* Nav Bar Code */
 .header{
     background-color:#A58FE3;
     height:55px;
@@ -140,4 +118,3 @@ input::placeholder{
     margin-right: 10px;
     padding-top: 7px;
 }
-/*Nav Bar Code End*/
