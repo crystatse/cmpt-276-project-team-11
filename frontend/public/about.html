@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>ResearchBuddy</title>
+
+        <link rel="stylesheet" href="about.css">
+
+    </head>
+    <body>
+        <!-- Nav Bar Code Start -->
+        <div class="header">
+            <div id="home_button">
+                <a class="header_button" href="/frontend/public/index.html"><img src="header_home_icon.png" width="50px" height="50px"></a>
+            </div>
+
+            <div id="header_search">
+                <input type="text" class="user-input" placeholder="Search for papers..." size="65%">
+            </div>
+
+            <div id="about_button"><a class="header_button" href="/frontend/public/about.html">About</a></div>
+            
+        </div>
+        <!-- Nav Bar Code End -->
+
+        <h1>About</h1>
+
+        <div class="about_content">
+            <h2>Purpose</h2>
+            <p>The goal of our project is to develop a web application that helps users with writing their research papers. 
+                This application uses AI to let users to look for recently published papers, search for papers written by specific researchers, find papers similar to the ones they have used, and generate citations and bibliographies for their sources. 
+                In addition to accessing papers, AI will also be used to summarize and answer questions about the papers. This application aims to streamline the process of finding information for research by cutting down the time spent looking for relevant papers.
+            </p>
+        </div>
+
+        <div class="about_content">
+            <h2>What Can You Do With ReasearchBuddy?</h2>
+            <div class="features">
+                <p><b>See Recently Viewed and Recently Published Papers</b> <br>
+                On ResearchBuddy's homepage, users can see their recently viewed papers along with a list of recently published papers below the search bar.</p>
+            </div>
+            <div class="features">
+                <p><b>Search for Relevant Papers</b><br>
+                Users can use the search bar to find papers related to their research. Search prompts could include paper topics, authors, and DOIs.</p>
+            </div>
+            <div class="features">
+                <p><b>Summarize Quickly and Ask Questions</b><br>
+                Using the OpenAI API, users can quickly summarize the contents of a paper with the click of a button. With a split-screen view of a selected paper and an AI chatbot, users can read and ask ChatGPT questions about the paper on the same screen.</p>
+            </div>
+            <div class="features">
+                <p><b>Find Similar Papers</b><br>
+                Along with summarizing, users can also click a button to find papers similar to their selected paper.</p>
+            </div>
+            <div class="features">
+                <p><b>Cite Papers</b><br>
+                Users can quickly cite the selected paper in a specified format by clicking the "Cite" button above the chatbot.</p>
+            </div>
+        </div>
+
+        <div class="about_content">
+            <h2>APIs Used</h2>
+
+            <h3>OpenAI</h3>
+            <ul>
+                <li>Generate concise and coherent summaries of research papers.</li>
+                <li>Provide detailed answers to user queries regarding the selected research paper through the API's natural language processing capabilities.</li>
+                <li>Utilize OpenAI to create prompts and recommendations that guide users to related research papers and suggest relevant keywords or search terms for further investigation.</li>
+                <li>Implement a feature that creates properly formatted citations for research papers, streamlining the referencing process for users.</li>
+            </ul> 
+
+            <h3>ArXiv API</h3>
+            <ul>
+                <li>Retrieve a specific research paper for users by using the paper’s unique ArXiv identifier.</li>
+                <li>Leverage the API to fetch comprehensive metadata for research papers, including details like title, authors, abstract, publication date, DOI, ArXiv ID, categories, license information, version, comments, links, and availability in various formats.</li>
+                <li>Enable users to search for and retrieve multiple research papers that match their desired keywords or search terms.</li>
+                <li>Retrieve recent papers using the ArXiv API to fetch a list of the most recently published papers.</li>
+            </ul>
+        </div>
+    </body>
+</html>
