@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { openai } = require('./config/open-ai.js');
-
+const axios = require('axios');
+const pdf = require('pdf-parse');
 
 require('dotenv').config();
 
@@ -13,27 +14,88 @@ const port = process.env.PORT || 3002
 app.use(cors());
 app.use(bodyParser.json());
 
+// test pdf url
+const pdfURL = "https://arxiv.org/pdf/2003.00001.pdf";
+
+
+
 
 app.post('/get-completions', async (req, res) => {
+    
     try {
         const { userMessage } = req.body;
-        console.log('User Message:', userMessage);
 
+        const response = await axios.get("https://arxiv.org/pdf/2003.00001.pdf", { responseType: 'arraybuffer' });
+        const data = response.data;
+
+        const pdfText = await pdf(data);
+        const textContent = pdfText.text;
+
+        function splitTextIntoChunks(text, chunkSize) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += chunkSize) {
+                chunks.push(text.slice(i, i + chunkSize));
+            }
+            return chunks;
+        }
+        
+
+        const chunkSize = 10000; 
+        const textChunks = splitTextIntoChunks(textContent, chunkSize);
+        
         const chatCompletion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k-0613',
+            model: 'gpt-3.5-turbo-16k',
             messages: [
-                { role: 'user', content: userMessage } // Ensure the userMessage is correctly included in 'content'
+                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                { role: 'system', content: `Your goal is to answer user inquiries related to the content of the previous segments of text. \nPlease provide informative and relevant responses. If a user asks an unrelated question, gently encourage them to ask about the text. Assume the user is interested in learning more about the information in the text or gaining a better understanding of the text itself.` },
+                { role: 'user', content: userMessage } 
             ]
         });
         
-
-        console.log('Response from OpenAI:', chatCompletion.choices[0].message.content);
         res.json({ content: chatCompletion.choices[0].message.content });
     } catch (error) {
         console.error('Server Error:', error); // Log the actual error to the console
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.post('/get-summary', async (req, res) => {
+    
+    try {
+        const { userMessage } = req.body;
+
+        const response = await axios.get("https://arxiv.org/pdf/2003.00001.pdf", { responseType: 'arraybuffer' });
+        const data = response.data;
+
+        const pdfText = await pdf(data);
+        const textContent = pdfText.text;
+
+        function splitTextIntoChunks(text, chunkSize) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += chunkSize) {
+                chunks.push(text.slice(i, i + chunkSize));
+            }
+            return chunks;
+        }
+
+        const chunkSize = 10000; 
+        const textChunks = splitTextIntoChunks(textContent, chunkSize);
+
+        const textSummary = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo-16k',
+            messages: [
+                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                { role: 'system', content: `Summarize the provided text.` }
+            ]
+        });
+        
+        res.json({ content: textSummary.choices[0].message.content });
+    } catch (error) {
+        console.error('Server Error:', error); // Log the actual error to the console
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 
 app.listen(port, () => {

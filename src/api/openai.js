@@ -31,15 +31,12 @@ const generateResponse = async (userMessage) => {
         const responseData = await response.json(); // Parse the response as JSON
 
         if (response.ok) {
-            console.log('Response from server:', responseData.content);
-
             // Update the chatbox with the generated message
             const generatedMessage = responseData.content;
             chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
             chatmessages.scrollTo(0, chatbox.scrollHeight);
         } else {
             console.error('Error:', response.status, response.statusText);
-            console.log('Error response body:', responseData);
         }
     } catch (error) {
         console.error('Error:', error);
@@ -47,10 +44,7 @@ const generateResponse = async (userMessage) => {
 };
 
 
-
-
 export default { generateResponse };
-
 
 
 const handleChat = () => {
