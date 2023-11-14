@@ -3,6 +3,16 @@ body {
     margin: 0;
 }
 
+a:link,
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+a:hover,
+a:active {
+    text-decoration: underline;
+}
+
 /* title + search + icon organization */
 .search-wrapper {
     display: flex;
@@ -31,6 +41,11 @@ ul {
 }
 .published > p {
     width: 200px;
+}
+
+.published > img {
+    width: 150px;
+    margin-left: 25px;
 }
 
 /* icon pic + description */
