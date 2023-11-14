@@ -19,18 +19,21 @@ const pdfURL = "https://arxiv.org/pdf/2003.00001.pdf";
 
 
 
-
+// endpoint to get answers to user-inputted questions
 app.post('/get-completions', async (req, res) => {
     
     try {
         const { userMessage } = req.body;
 
+        // fetch PDF data from URL
         const response = await axios.get("https://arxiv.org/pdf/2003.00001.pdf", { responseType: 'arraybuffer' });
         const data = response.data;
 
+        // parse PDF text
         const pdfText = await pdf(data);
         const textContent = pdfText.text;
 
+        // splits text into chunks
         function splitTextIntoChunks(text, chunkSize) {
             const chunks = [];
             for (let i = 0; i < text.length; i += chunkSize) {
@@ -39,10 +42,10 @@ app.post('/get-completions', async (req, res) => {
             return chunks;
         }
         
-
         const chunkSize = 10000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
         
+        // generates chatbot response using GPT 3.5 turbo model (16k max tokens)
         const chatCompletion = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo-16k',
             messages: [
@@ -52,13 +55,17 @@ app.post('/get-completions', async (req, res) => {
             ]
         });
         
+        // send answer as JSON response
         res.json({ content: chatCompletion.choices[0].message.content });
     } catch (error) {
+        // log and handle errors
         console.error('Server Error:', error); // Log the actual error to the console
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
+
+// endpoint to get summary of selected research paper
 app.post('/get-summary', async (req, res) => {
     
     try {
