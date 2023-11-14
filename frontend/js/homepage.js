@@ -10,7 +10,7 @@ function addViewedPapers() {
     a.appendChild(li);
 
     var img = document.createElement("img");
-    img.src = "homepage/icons/papers_icon.png";
+    img.src = "../images/article_icon.png";
     li.appendChild(img);
 
     // to be changed
@@ -32,7 +32,7 @@ function addNewPapers() {
     a.appendChild(li);
 
     var img = document.createElement("img");
-    img.src = "homepage/icons/papers_icon.png";
+    img.src = "../images/article_icon.png";
     li.appendChild(img);
 
     // to be changed
