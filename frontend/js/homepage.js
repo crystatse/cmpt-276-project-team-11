@@ -65,6 +65,22 @@ searchBar.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         // Save input data to localStorage
         localStorage.setItem('searchQuery', searchBar.value);
+
+        // searching and going to search page code
+        var search = document.getElementById("search").value;
+        if (search !== null && search.trim() !== "") {
+            localStorage.setItem("searchValue", search);
+            console.log("added search value to localStorage");
+        }
+
+        // Construct the URL for the destination HTML file
+        var destinationURL = "../public/searchresults.html";
+
+        // Redirect to the destination HTML file first
+        window.location.href = destinationURL;
+
+        event.preventDefault();
+        // end
     }
 
 });

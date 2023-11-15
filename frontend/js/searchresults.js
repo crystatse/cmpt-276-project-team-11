@@ -1,28 +1,52 @@
-var inputElement = document.getElementById("search-bar");
+console.log("Script loaded successfully");
 
-inputElement.addEventListener("keydown", function (event) {
-    // Check if the pressed key is Enter (key code 13)
-    if (event.keyCode === 13) {
-        // Call your function here
-        search();
+otherSiteRequest = false;
+document.addEventListener("DOMContentLoaded", function () {
+    // Call your functions here after the HTML has fully loaded
+    var search = localStorage.getItem("searchValue");
+    console.log(search);
+
+    if(search !== null) {
+        // The search value exists in local storage
+        otherSiteRequest = true;
+        searchFromOther();
+    } else {
+        
     }
 });
+if(otherSiteRequest === false) {
 
-function search() {
+    var inputElement = document.getElementById("search-bar");
 
-    // Update "Search Results For:" and title tab
-    var search = document.getElementById("search-bar").value;
+        inputElement.addEventListener("keydown", function (event) {
+            // Check if the pressed key is Enter (key code 13)
+            if (event.keyCode === 13) {
+                // Call your function here
+                var searchInput = document.getElementById("search-bar").value;
+
+                // Update the UI with the search input
+                document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
+                document.getElementById("title").textContent = searchInput + " - results";
+
+                // Load in search results using the input
+                searchArXiv(searchInput);
+            }
+        });
+}
+function searchFromOther() {
+
+    console.log("searchFromOther called");
+    var search = localStorage.getItem("searchValue");
+    localStorage.removeItem("searchValue");
     document.getElementById("search-results-for").textContent = "Search Results for: " + search;
     document.getElementById("title").textContent = search + " - results";
-
-    // Load in search results from arXiv
-    searchArXiv();
+    searchArXiv(search);
 }
 
-function searchArXiv() {
+function searchArXiv(search) {
 
     // Get the value from the search bar
-    var searchValue = document.getElementById("search-bar").value;
+    var searchValue = search
 
     // ArXiv API endpoint
     var apiUrl = "https://export.arxiv.org/api/query";
