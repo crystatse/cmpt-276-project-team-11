@@ -15,9 +15,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-
-
-
 // endpoint to get answers to user-inputted questions
 app.post('/get-completions', async (req, res) => {
     
@@ -68,9 +65,10 @@ app.post('/get-completions', async (req, res) => {
 app.post('/get-summary', async (req, res) => {
     
     try {
-        const { userMessage } = req.body;
+        console.log("got to api route");
+        const { pdfURL } = req.body;
 
-        const response = await axios.get("https://arxiv.org/pdf/2003.00001.pdf", { responseType: 'arraybuffer' });
+        const response = await axios.get(pdfURL, { responseType: 'arraybuffer' });
         const data = response.data;
 
         const pdfText = await pdf(data);

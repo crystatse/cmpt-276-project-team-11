@@ -3,13 +3,16 @@ const chatInput = document.querySelector("#chatbot-input #user-input");
 const sendChatBtn = document.querySelector("#chatbot-input #send");
 const chatbox = document.querySelector(".chatbox");
 const chatmessages = document.querySelector("#chat-messages");
+const summarizeBtn = document.querySelector("#summarization");
 
-// API endpoint for chat completions
-const API_URL = 'http://localhost:3002/get-completions'; 
+// API endpoints
+const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
+const SUMMARY_API_URL = 'http://localhost:3002/get-summary';
 
 // user input
 let userMessage;
 
+// arXiv pdf URL
 const urlParams = new URLSearchParams(window.location.search);
 const pdfURL = urlParams.get('pdfURL');
 
@@ -40,7 +43,7 @@ const generateResponse = async (userMessage) => {
         };
 
         // send POST request to API endpoint
-        const response = await fetch(API_URL, requestOptions);
+        const response = await fetch(COMPLETION_API_URL, requestOptions);
         const responseData = await response.json(); // parse the response as JSON
 
         if (response.ok) {
@@ -58,7 +61,7 @@ const generateResponse = async (userMessage) => {
 };
 
 
-export default { generateResponse };
+
 
 // handles user input and initiates chat
 const handleChat = () => {
@@ -81,6 +84,37 @@ const handleChat = () => {
     });
 };
 
+const summarize = async () => {
+    try {
+        console.log("got to summarize function");
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ pdfURL }),
+        };
+
+        // send POST request to API endpoint
+        const response = await fetch(SUMMARY_API_URL, requestOptions);
+        const responseData = await response.json(); // parse the response as JSON
+
+        if (response.ok) {
+            // update the chatbox with the generated message
+            const generatedMessage = responseData.content;
+            chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
+            chatmessages.scrollTo(0, chatbox.scrollHeight);
+        } else {
+            // log error
+            console.error('Error:', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export default { generateResponse, summarize };
+
 // event listeners
 sendChatBtn.addEventListener("click", handleChat);
 chatInput.addEventListener("keydown", (event) => {
@@ -89,3 +123,4 @@ chatInput.addEventListener("keydown", (event) => {
     }
 });
 
+summarizeBtn.addEventListener("click", summarize);
