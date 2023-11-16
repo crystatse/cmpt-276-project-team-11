@@ -1,10 +1,12 @@
 console.log("Script loaded successfully");
 
 otherSiteRequest = false;
+endResults = 5;
+searchInputValue = "";
 document.addEventListener("DOMContentLoaded", function () {
     // Call your functions here after the HTML has fully loaded
     var search = localStorage.getItem("searchValue");
-    console.log(search);
+    console.log("local storage: " + search);
 
     if(search !== null) {
         // The search value exists in local storage
@@ -23,27 +25,41 @@ if(otherSiteRequest === false) {
             if (event.keyCode === 13) {
                 // Call your function here
                 var searchInput = document.getElementById("search-bar").value;
-
+                searchInputValue = searchInput;
                 // Update the UI with the search input
                 document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
                 document.getElementById("title").textContent = searchInput + " - results";
 
                 // Load in search results using the input
-                searchArXiv(searchInput);
+                searchArXiv(searchInput, endResults);
             }
         });
+}
+window.addEventListener("scroll", function () {
+    // Check if the user has reached the bottom of the page
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        // Load more results when scrolling to the bottom
+        loadMoreResults();
+    }
+});
+function loadMoreResults() {
+    // Increment the starting point for results
+    endResults += 5; // Increase by the desired number of results to load
+
+    searchArXiv(searchInputValue, endResults);
 }
 function searchFromOther() {
 
     console.log("searchFromOther called");
     var search = localStorage.getItem("searchValue");
+    searchInputValue = search;
     localStorage.removeItem("searchValue");
     document.getElementById("search-results-for").textContent = "Search Results for: " + search;
     document.getElementById("title").textContent = search + " - results";
-    searchArXiv(search);
+    searchArXiv(search, endResults);
 }
 
-function searchArXiv(search) {
+function searchArXiv(search, end) {
 
     // Get the value from the search bar
     var searchValue = search
@@ -57,7 +73,7 @@ function searchArXiv(search) {
         sortBy: "relevance",
         sortOrder: "descending",
         start: 0,
-        max_results: 5 // number of results to load
+        max_results: end // number of results to load
     };
 
     // Convert the params object to a query string
