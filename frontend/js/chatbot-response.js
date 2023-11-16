@@ -39,6 +39,8 @@ const createChatLi = (message, className) => {
 // generates response using server API
 const generateResponse = async (userMessage) => {
     try {
+        displayBubbles(); // display loading bubbles
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -60,13 +62,22 @@ const generateResponse = async (userMessage) => {
             // log error
             console.error('Error:', response.status, response.statusText);
         }
+
+        hideBubbles(); // hide loading bubbles
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
+// displays loading bubbles before generating AI response
+function displayBubbles() {
+    document.querySelector("#loading-container").style.display="block";
+}
 
-
+// hides loading bubbles after AI response has been displayed
+function hideBubbles() {
+    document.querySelector("#loading-container").style.display="none";
+}
 
 // handles user input and initiates chat
 const handleChat = () => {
@@ -91,6 +102,8 @@ const handleChat = () => {
 
 const summarize = async () => {
     try {
+        displayBubbles(); // display loading bubbles
+
         console.log("got to summarize function");
         const requestOptions = {
             method: 'POST',
@@ -113,6 +126,8 @@ const summarize = async () => {
             // log error
             console.error('Error:', response.status, response.statusText);
         }
+
+        hideBubbles(); // hide loading bubbles
     } catch (error) {
         console.error('Error:', error);
     }

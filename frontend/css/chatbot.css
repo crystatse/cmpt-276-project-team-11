@@ -170,3 +170,47 @@ input::placeholder{
     margin-right: 10px;
     padding-top: 7px;
 }
+
+/* code for loading bubbles is from 
+https://www.youtube.com/watch?v=JZjjWQe4RVM */
+#loading-container {
+    text-align: center;
+    background: #ffffff;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    margin-right: 90%;
+    padding: 8px;
+}
+
+.bubble {
+    width: 8px;
+    height: 8px;
+    background-color: #333333;
+    border-radius: 50%;
+    display: inline-block;
+    -webkit-animation: in-and-out-bubbles 1.20s infinite ease-in-out;
+    animation: in-and-out-bubbles 1.20s infinite ease-in-out;
+}
+
+.bubble1 {
+    -webkit-animation-delay: -0.35;
+    animation-delay: -0.35s;
+}
+
+.bubble2 {
+    -webkit-animation-delay: -0.25;
+    animation-delay: -0.25s;
+}
+
+@keyframes in-and-out-bubbles {
+    0%,100% {transform: scale(0)}
+    20% {transform: scale(1)}
+}
+
+@-webkit-keyframes in-and-out-bubbles {
+    0%,100% {-webkit-transform: scale(0)}
+    20% {-webkit-transform: scale(1)}
+}
+/* loading bubbles code ends here */
