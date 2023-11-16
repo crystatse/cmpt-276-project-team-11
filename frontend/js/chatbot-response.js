@@ -10,6 +10,15 @@ const API_URL = 'http://localhost:3002/get-completions';
 // user input
 let userMessage;
 
+const urlParams = new URLSearchParams(window.location.search);
+const pdfURL = urlParams.get('pdfURL');
+
+// Embed the PDF using the retrieved URL
+if (pdfURL) {
+    const pdfEmbed = document.getElementById('pdf-embed');
+    pdfEmbed.src = decodeURIComponent(pdfURL);
+}
+
 // creates chat message list items
 const createChatLi = (message, className) => {
     const chatLi = document.createElement("li");
@@ -27,7 +36,7 @@ const generateResponse = async (userMessage) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userMessage }),
+            body: JSON.stringify({ userMessage, pdfURL }),
         };
 
         // send POST request to API endpoint

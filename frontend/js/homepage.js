@@ -15,7 +15,7 @@ function addNewPapers() {
         li.setAttribute("class", "published");
 
         var a = document.createElement("a");
-        a.href = paper.pdfLink; 
+        a.href = `chatbot.html?pdfURL=${encodeURIComponent(paper.pdfLink)}`;
         a.appendChild(li);
 
         var img = document.createElement("img");
