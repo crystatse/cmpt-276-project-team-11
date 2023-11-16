@@ -14,8 +14,7 @@ const port = process.env.PORT || 3002
 app.use(cors());
 app.use(bodyParser.json());
 
-// test pdf url
-const pdfURL = "https://arxiv.org/pdf/2003.00001.pdf";
+
 
 
 
@@ -23,10 +22,10 @@ const pdfURL = "https://arxiv.org/pdf/2003.00001.pdf";
 app.post('/get-completions', async (req, res) => {
     
     try {
-        const { userMessage } = req.body;
+        const { userMessage, pdfURL } = req.body;
 
         // fetch PDF data from URL
-        const response = await axios.get("https://arxiv.org/pdf/2003.00001.pdf", { responseType: 'arraybuffer' });
+        const response = await axios.get(pdfURL, { responseType: 'arraybuffer' });
         const data = response.data;
 
         // parse PDF text
