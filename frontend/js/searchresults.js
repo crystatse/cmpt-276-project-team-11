@@ -124,12 +124,9 @@ function displayResults(results) {
         titleLinkElement.href = `chatbot.html?pdfURL=${encodeURIComponent(result.link)}`;
         titleLinkElement.target = "_blank"; // Opens in a new tab
 
-<<<<<<< HEAD
         var buttonContainer = document.createElement("div");
         buttonContainer.classList.add("image-div"); // added to "button-div" class
 
-=======
->>>>>>> 0767505ed9bd4a00478dfa50036bf812e522b6fa
         var titleElement = document.createElement("h3");
         titleElement.appendChild(titleLinkElement);
 
@@ -146,8 +143,6 @@ function displayResults(results) {
 
         // Append the result container to the results container
         resultsContainer.appendChild(resultContainer);
-<<<<<<< HEAD
-
         // Create a new img element for each result
         var articleImage = document.createElement("img");
         articleImage.classList.add("article-icons"); // added to "image-div" class
@@ -160,8 +155,6 @@ function displayResults(results) {
 
         buttonContainer.appendChild(articleImage);
         buttonsContainer.appendChild(buttonContainer);
-=======
->>>>>>> 0767505ed9bd4a00478dfa50036bf812e522b6fa
     });
 }
 
