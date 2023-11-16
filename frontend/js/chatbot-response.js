@@ -4,10 +4,13 @@ const sendChatBtn = document.querySelector("#chatbot-input #send");
 const chatbox = document.querySelector(".chatbox");
 const chatmessages = document.querySelector("#chat-messages");
 const summarizeBtn = document.querySelector("#summarization");
+const citationBtn = document.querySelector('#citation');
 
 // API endpoints
 const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
 const SUMMARY_API_URL = 'http://localhost:3002/get-summary';
+const CITATION_API_URL = 'http://localhost:3002/get-citation';
+const ARXIV_API_URL = 'https://export.arxiv.org/api/query';
 
 // user input
 let userMessage;
