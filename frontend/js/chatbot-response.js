@@ -6,7 +6,27 @@ const chatmessages = document.querySelector("#chat-messages");
 const summarizeBtn = document.querySelector("#summarization");
 const citationBtn = document.querySelector('#citation');
 
+// navigation search bar funtionality
+var inputElement = document.getElementById("search-bar");
 
+inputElement.addEventListener("keydown", function (event) {
+    // Check if the pressed key is Enter (key code 13)
+    if (event.keyCode === 13) {
+        var search = document.getElementById("search-bar").value;
+        if (search !== null && search.trim() !== "") {
+            localStorage.setItem("searchValue", search);
+            console.log("added search value to localStorage");
+        }
+
+        // Construct the URL for the destination HTML file
+        var destinationURL = "../public/searchresults.html";
+
+        // Redirect to the destination HTML file first
+        window.location.href = destinationURL;
+
+        event.preventDefault();
+    }
+});
 
 // API endpoints
 const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
@@ -147,6 +167,7 @@ function addNewLinesAfterCitations(text) {
 const cite = async () => {
     console.log("got to cite function");
     try {
+        displayBubbles();
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -169,6 +190,7 @@ const cite = async () => {
             // log error
             console.error('Error:', response.status, response.statusText);
         }
+        hideBubbles();
     } catch (error) {
         console.error('Error:', error);
     }
