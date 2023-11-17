@@ -38,21 +38,27 @@ app.post('/get-completions', async (req, res) => {
             return chunks;
         }
         
-        const chunkSize = 10000; 
+        const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
-        
-        // generates chatbot response using GPT 3.5 turbo model (16k max tokens)
-        const chatCompletion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k',
-            messages: [
-                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
-                { role: 'system', content: `Your goal is to answer user inquiries related to the content of the previous segments of text. \nPlease provide informative and relevant responses. If a user asks an unrelated question, gently encourage them to ask about the text. Assume the user is interested in learning more about the information in the text or gaining a better understanding of the text itself.` },
-                { role: 'user', content: userMessage } 
-            ]
-        });
-        
-        // send answer as JSON response
-        res.json({ content: chatCompletion.choices[0].message.content });
+
+        // returns error message if text exceeds token limit
+        if (textChunks.length > 40) { 
+            res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
+        } 
+
+        else {
+            // generates chatbot response using GPT 3.5 turbo model (16k max tokens)
+            const chatCompletion = await openai.chat.completions.create({
+                model: 'gpt-3.5-turbo-16k',
+                messages: [
+                    ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                    { role: 'system', content: `Your goal is to answer user inquiries related to the content of the previous segments of text. \nPlease provide informative and relevant responses. If a user asks an unrelated question, gently encourage them to ask about the text. Assume the user is interested in learning more about the information in the text or gaining a better understanding of the text itself.` },
+                    { role: 'user', content: userMessage } 
+                ]
+            });
+            // send answer as JSON response
+            res.json({ content: chatCompletion.choices[0].message.content });
+        }
     } catch (error) {
         // log and handle errors
         console.error('Server Error:', error); // Log the actual error to the console
@@ -63,7 +69,6 @@ app.post('/get-completions', async (req, res) => {
 
 // endpoint to get summary of selected research paper
 app.post('/get-summary', async (req, res) => {
-    
     try {
         console.log("got to api route");
         const { pdfURL } = req.body;
@@ -82,23 +87,32 @@ app.post('/get-summary', async (req, res) => {
             return chunks;
         }
 
-        const chunkSize = 10000; 
+        const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        const textSummary = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k',
-            messages: [
-                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
-                { role: 'system', content: `Summarize the provided text.` }
-            ]
-        });
-        
-        res.json({ content: textSummary.choices[0].message.content });
+        // returns error message if text exceeds token limit
+        console.log(textChunks.length);
+
+        if (textChunks.length > 40) { 
+            
+            res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
+        } else {
+            const textSummary = await openai.chat.completions.create({
+                model: 'gpt-3.5-turbo-16k',
+                messages: [
+                    ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                    { role: 'system', content: `Summarize the provided text.` }
+                ]
+            });
+            
+            res.json({ content: textSummary.choices[0].message.content });
+        }
     } catch (error) {
         console.error('Server Error:', error); // Log the actual error to the console
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 
 
@@ -121,18 +135,25 @@ app.post('/get-citation', async (req, res) => {
             return chunks;
         }
 
-        const chunkSize = 10000; 
-        const textChunks = splitTextIntoChunks(textContent, chunkSize)
+        const chunkSize = 1000; 
+        const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        const citationResponse = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k',
-            messages: [
-                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
-                { role: 'system', content: 'Based on the provided text, generate citations in the styles of APA, MLA, Chicago, and IEEE.' }
-            ]
-        });
-        
-        res.json({ content: citationResponse.choices[0].message.content });
+        // returns error message if text exceeds token limit
+        if (textChunks.length > 40) { 
+            res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
+        } 
+
+        else {
+            const citationResponse = await openai.chat.completions.create({
+                model: 'gpt-3.5-turbo-16k',
+                messages: [
+                    ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                    { role: 'system', content: 'Based on the provided text, generate citations in the styles of APA, MLA, Chicago, and IEEE.' }
+                ]
+            });
+            
+            res.json({ content: citationResponse.choices[0].message.content });
+        }
     } catch (error) {
         console.error('Server Error:', error); // Log the actual error to the console
         res.status(500).json({ error: 'Internal Server Error' });
