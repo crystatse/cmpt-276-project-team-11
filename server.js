@@ -102,6 +102,44 @@ app.post('/get-summary', async (req, res) => {
 
 
 
+app.post('/get-citation', async (req, res) => {
+    console.log("got to citation api route");
+    try {
+        const { pdfURL } = req.body;
+
+        const response = await axios.get(pdfURL, { responseType: 'arraybuffer' });
+        const data = response.data;
+
+        const pdfText = await pdf(data);
+        const textContent = pdfText.text;
+
+        function splitTextIntoChunks(text, chunkSize) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += chunkSize) {
+                chunks.push(text.slice(i, i + chunkSize));
+            }
+            return chunks;
+        }
+
+        const chunkSize = 10000; 
+        const textChunks = splitTextIntoChunks(textContent, chunkSize)
+
+        const citationResponse = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo-16k',
+            messages: [
+                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                { role: 'system', content: 'Based on the provided text, generate citations in the styles of APA, MLA, Chicago, and IEEE.' }
+            ]
+        });
+        
+        res.json({ content: citationResponse.choices[0].message.content });
+    } catch (error) {
+        console.error('Server Error:', error); // Log the actual error to the console
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
