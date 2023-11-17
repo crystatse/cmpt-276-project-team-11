@@ -7,7 +7,7 @@ function addNewPapers() {
     var ul = document.getElementById("new");
 
     // Iterate over the newPapers array in reverse order to show newest first
-    for (let i = newPapers.length - 1; i >= 0; i--) {
+    for (let i = newPapers.length - 1; i >= 2; i--) {
         console.log("iterating");
         const paper = newPapers[i];
 
@@ -54,7 +54,7 @@ function addViewedPapers() {
 }
 
 // temporary testing functionality
-for (let i = 0; i < 9; i++) {
+for (let i = 0; i < 7; i++) {
     addViewedPapers();
 }
 

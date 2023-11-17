@@ -1,5 +1,5 @@
 body {
-    background-color: rgba(239,227,255,255);
+    background-color: #fff;
     margin: 0;
 }
 
@@ -14,19 +14,64 @@ a:active {
 }
 
 /* title + search + icon organization */
+.background-1 {
+    min-height: 100vh;
+}
 .search-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 2;
+    color: #fff;
+}
+
+/* ... (other CSS rules) ... */
+
+.descriptive-icons {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 10px 0; 
+    padding: 0; 
+    justify-content: center;
+    gap: 10px;
+}
+
+.icons {
+    text-align: center;
+    font-family: 'Jura', sans-serif;
+    font-size: small;
+    width: 48px;
+    height: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.icons:nth-child(3) {
+    margin-bottom: 3px; 
+}
+
+.icons img {
+    margin-bottom: 5px; 
+}
+
+#descriptive-icons img {
+    width: 64;
 }
 
 ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    margin-left: -20px;
+    margin-left: -50px;
+}
+
+.background-1 {
+    background-image: radial-gradient(at center bottom, rgb(71, 85, 105), rgb(49, 46, 129), rgb(88, 28, 135));
 }
 
 /* paper articles */
@@ -54,24 +99,28 @@ ul > a :hover {
 }
 
 .icons {
-    margin: 50px;
+    justify-content: space-between;
 }
 
 .icons > img, p {
     display: block;
     padding: 0;
     text-align: center;
-    width: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 2;
+    font-size: small;
+    width: 48px;
     height: auto;
     align-items: center;
 }
 .icons > p {
-    width: 100px;
+    width: 64px;
 }
 
 li {
-    margin: 50px;
-}
+    margin-left: 50px;
+    margin-right: 50px;
+} 
 
 a > li {
     margin: 0px;
@@ -85,10 +134,16 @@ h1 {
     font-size: 50px;
 }
 
+h2 {
+    color:#541f87;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 6;
+    margin-left: 10px;
+}
+
 /* Nav Bar Code */
 .header{
-    background-color:#A58FE3;
-    height:55px;
+    height:7vh;
     display:flex;
     justify-content: space-between;
 }
@@ -106,18 +161,21 @@ h1 {
 }
 
 .user-input {
-    border: 0px;
+    border: 1px solid white;
     width: 500px;
     height: 25px;
     margin-top: 10px;
+    margin-bottom: 70px;
     border-radius: 8px;
-    background-color: #7A49A5;
+    background-color: transparent;
     padding-left: 5px;
-    color:white;
+    outline: none;
+    color: #fff;
 }
 
 input::placeholder{
     color:white;
+    font-family: 'Jura', sans-serif;
 }
 
 #about_button{
@@ -125,11 +183,22 @@ input::placeholder{
     width: 60px;
     font-size: 18px;
     text-align: center;
-
-    background-color: #7A49A5;
     border-radius: 7px;
 
     margin-top: 7px;
     margin-right: 10px;
     padding-top: 7px;
+}
+
+#about_button .header_button {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#recently-published {
+    margin-left: 20px;
+}
+
+#recently-viewed {
+    margin-left: 20px;
 }
