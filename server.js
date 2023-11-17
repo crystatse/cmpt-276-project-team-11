@@ -114,8 +114,7 @@ app.post('/get-summary', async (req, res) => {
 });
 
 
-
-
+// endpoint to get citations for selected research paper
 app.post('/get-citation', async (req, res) => {
     console.log("got to citation api route");
     try {
@@ -153,6 +152,52 @@ app.post('/get-citation', async (req, res) => {
             });
             
             res.json({ content: citationResponse.choices[0].message.content });
+        }
+    } catch (error) {
+        console.error('Server Error:', error); // Log the actual error to the console
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+// endpoint to get query for similar papers
+app.post('/get-similar-papers', async (req, res) => {
+    
+    try {
+        console.log("got to api route");
+        const { pdfURL } = req.body;
+
+        const response = await axios.get(pdfURL, { responseType: 'arraybuffer' });
+        const data = response.data;
+
+        const pdfText = await pdf(data);
+        const textContent = pdfText.text;
+
+        function splitTextIntoChunks(text, chunkSize) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += chunkSize) {
+                chunks.push(text.slice(i, i + chunkSize));
+            }
+            return chunks;
+        }
+
+        const chunkSize = 1000; 
+        const textChunks = splitTextIntoChunks(textContent, chunkSize);
+
+        if (textChunks.length > 40) { 
+            res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
+        } 
+
+        else {
+            const textSummary = await openai.chat.completions.create({
+                model: 'gpt-3.5-turbo-16k',
+                messages: [
+                    ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                    { role: 'system', content: `Generate a 1-5 word search query that would help in finding research papers similar to this text.` }
+                ]
+            });
+            
+            res.json({ content: textSummary.choices[0].message.content });
         }
     } catch (error) {
         console.error('Server Error:', error); // Log the actual error to the console

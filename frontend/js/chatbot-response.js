@@ -5,6 +5,7 @@ const chatbox = document.querySelector(".chatbox");
 const chatmessages = document.querySelector("#chat-messages");
 const summarizeBtn = document.querySelector("#summarization");
 const citationBtn = document.querySelector('#citation');
+const similarPapersBtn = document.querySelector("#similar-papers");
 
 // navigation search bar funtionality
 var inputElement = document.getElementById("search-bar");
@@ -32,6 +33,7 @@ inputElement.addEventListener("keydown", function (event) {
 const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
 const SUMMARY_API_URL = 'http://localhost:3002/get-summary';
 const CITATION_API_URL = 'http://localhost:3002/get-citation';
+const SIMILAR_PAPERS_API_URL = 'http://localhost:3002/get-similar-papers';
 
 // user input
 let userMessage;
@@ -196,6 +198,49 @@ const cite = async () => {
     }
 }
 
+const similarPapers = async () => {
+    console.log("got to similar papers function");
+    try {
+        displayBubbles();
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ pdfURL }), // Assuming pdfURL is declared elsewhere
+        };
+
+        // send POST request to API endpoint
+        const response = await fetch(SIMILAR_PAPERS_API_URL, requestOptions);
+        const responseData = await response.json(); // parse the response as JSON
+        
+        if (response.ok) {
+            // use the generated message as a query to be searched
+            const generatedMessage = responseData.content;
+            if (generatedMessage === "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding.") {
+                chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
+                chatmessages.scrollTo(0, chatbox.scrollHeight);
+                hideBubbles();
+            } else {
+                localStorage.setItem("searchValue", generatedMessage);
+                console.log("added search value to localStorage");
+    
+                // Construct the URL for the destination HTML file
+                const destinationURL = "../public/searchresults.html";
+    
+                // Redirect to the destination HTML file
+                window.location.href = destinationURL;
+            }
+        } else {
+            // log error
+            console.error('Error:', response.status, response.statusText);
+        }
+        hideBubbles();
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 export default { generateResponse, summarize, cite };
 
 // event listeners
@@ -208,3 +253,4 @@ chatInput.addEventListener("keydown", (event) => {
 
 summarizeBtn.addEventListener("click", summarize);
 citationBtn.addEventListener("click", cite);
+similarPapersBtn.addEventListener("click", similarPapers);
