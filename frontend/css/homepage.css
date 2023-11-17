@@ -1,8 +1,11 @@
 body {
     background-color: rgba(239,227,255,255);
     margin: 0;
+    /* margin-bottom: 300px; */
 }
-
+a {
+    cursor: pointer;
+}
 a:link,
 a:visited {
     text-decoration: none;
@@ -27,6 +30,7 @@ ul {
     flex-wrap: wrap;
     list-style: none;
     margin-left: -20px;
+    margin-bottom: 0;
 }
 
 /* paper articles */
@@ -132,4 +136,42 @@ input::placeholder{
     margin-top: 7px;
     margin-right: 10px;
     padding-top: 7px;
+}
+
+/* View More Button */
+section > button {
+    height: 30px;
+    width: 105px;
+    font-size: 18px;
+    text-align: center;
+
+    background-color: #A58FE3;
+    border-radius: 7px;
+
+    margin-right: 10px;
+    padding-top: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+section > button:hover {
+    text-decoration: underline;
+}
+
+#showMoreViewed {
+    margin-bottom: 10px;
+    display: none;
+}
+
+#nothing {
+    margin-left: 50px;
+    display: none;
+}
+
+#nothing:before {
+    content: "• ";
+    color: black;
 }

@@ -137,9 +137,14 @@ function displayResults(results) {
         // Create a link element with the title as the text content
         var titleLinkElement = document.createElement("a");
         titleLinkElement.textContent = result.title;
-        titleLinkElement.href = `chatbot.html?pdfURL=${encodeURIComponent(result.link)}`;
-        titleLinkElement.target = "_blank"; // Opens in a new tab
-
+        titleLinkElement.classList.add('hyperlink-style');
+        titleLinkElement.addEventListener("click", function() {
+            // Redirect to the article link when the title is clicked
+            this.classList.add('clicked');
+            window.open(`chatbot.html?pdfURL=${encodeURIComponent(result.link)}`, '_blank');
+            saveHistory(result.title,result.link);
+        });
+        
         var buttonContainer = document.createElement("div");
         buttonContainer.classList.add("image-div"); // added to "button-div" class
 
@@ -166,11 +171,31 @@ function displayResults(results) {
         articleImage.alt = "Read Article Image";
         articleImage.addEventListener("click", function() {
             // Redirect to the article link when the image is clicked (temporarily functionalaity and it will be changed to go to chat page) 
-            window.location.href = `chatbot.html?pdfURL=${encodeURIComponent(result.link)}`;
+            window.open(`chatbot.html?pdfURL=${encodeURIComponent(result.link)}`, '_blank');
+            saveHistory(result.title,result.link);
         });
 
         buttonContainer.appendChild(articleImage);
         buttonsContainer.appendChild(buttonContainer);
     });
+}
+
+function saveHistory(title, pdf) {
+    // Retrieve the paperHistory from localStorage
+    var paperHistoryString = localStorage.getItem('paperHistory');
+    var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
+
+    // Define the new paper
+    var newPaper = [title, pdf];
+
+    // Remove any duplicate from the array
+    paperHistory = paperHistory.filter(paper => paper[0] !== title || paper[1] !== pdf);
+
+    // Add the new paper to the array
+    console.log("adding: " + newPaper);
+    paperHistory.push(newPaper);
+
+    // Store the updated array in localStorage
+    localStorage.setItem('paperHistory', JSON.stringify(paperHistory));
 }
 
