@@ -207,7 +207,7 @@ const similarPapers = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ pdfURL }),
+            body: JSON.stringify({ pdfURL }), // Assuming pdfURL is declared elsewhere
         };
 
         // send POST request to API endpoint
@@ -215,25 +215,31 @@ const similarPapers = async () => {
         const responseData = await response.json(); // parse the response as JSON
         
         if (response.ok) {
-            // use the generated message as a query in to be searched
+            // use the generated message as a query to be searched
             const generatedMessage = responseData.content;
-            localStorage.setItem("searchValue", generatedMessage);
-            console.log("added search value to localStorage");
-
-            // Construct the URL for the destination HTML file
-            var destinationURL = "../public/searchresults.html";
-
-            // Redirect to the destination HTML file first
-            window.location.href = destinationURL;
+            if (generatedMessage === "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding.") {
+                chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
+                chatmessages.scrollTo(0, chatbox.scrollHeight);
+                hideBubbles();
+            } else {
+                localStorage.setItem("searchValue", generatedMessage);
+                console.log("added search value to localStorage");
+    
+                // Construct the URL for the destination HTML file
+                const destinationURL = "../public/searchresults.html";
+    
+                // Redirect to the destination HTML file
+                window.location.href = destinationURL;
+            }
         } else {
             // log error
             console.error('Error:', response.status, response.statusText);
-        }    
+        }
         hideBubbles();
     } catch (error) {
         console.error('Error:', error);
     }
-}
+};
 
 export default { generateResponse, summarize, cite };
 

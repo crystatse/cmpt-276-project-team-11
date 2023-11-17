@@ -181,18 +181,24 @@ app.post('/get-similar-papers', async (req, res) => {
             return chunks;
         }
 
-        const chunkSize = 10000; 
+        const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        const textSummary = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k',
-            messages: [
-                ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
-                { role: 'system', content: `Generate a 1-5 word search query that would help in finding research papers similar to this text.` }
-            ]
-        });
-        
-        res.json({ content: textSummary.choices[0].message.content });
+        if (textChunks.length > 40) { 
+            res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
+        } 
+
+        else {
+            const textSummary = await openai.chat.completions.create({
+                model: 'gpt-3.5-turbo-16k',
+                messages: [
+                    ...textChunks.map(chunk => ({ role: 'system', content: chunk })),
+                    { role: 'system', content: `Generate a 1-5 word search query that would help in finding research papers similar to this text.` }
+                ]
+            });
+            
+            res.json({ content: textSummary.choices[0].message.content });
+        }
     } catch (error) {
         console.error('Server Error:', error); // Log the actual error to the console
         res.status(500).json({ error: 'Internal Server Error' });
