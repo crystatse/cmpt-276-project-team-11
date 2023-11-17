@@ -6,11 +6,12 @@ const chatmessages = document.querySelector("#chat-messages");
 const summarizeBtn = document.querySelector("#summarization");
 const citationBtn = document.querySelector('#citation');
 
+
+
 // API endpoints
 const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
 const SUMMARY_API_URL = 'http://localhost:3002/get-summary';
 const CITATION_API_URL = 'http://localhost:3002/get-citation';
-const ARXIV_API_URL = 'https://export.arxiv.org/api/query';
 
 // user input
 let userMessage;
@@ -29,7 +30,8 @@ if (pdfURL) {
 const createChatLi = (message, className) => {
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", className);
-    let chatContent = `<p>${message}</p>`;
+    // replace newlines with line breaks in html
+    let chatContent = `<p>${message.replace(/\n/g, '<br>')}</p>`;
     chatLi.innerHTML = chatContent;
     return chatLi;
 };
@@ -116,7 +118,48 @@ const summarize = async () => {
     }
 }
 
-export default { generateResponse, summarize };
+function addNewLinesAfterCitations(text) {
+    // Define the pattern for identifying the citation styles and capturing them
+    const pattern = /(MLA|IEEE|Chicago)\sCitation:\s.*?\d{4}\./g;
+    
+    // Replace the identified citation styles with the same style preceded by a newline character
+    const formattedText = text.replace(pattern, '\n\n$&');
+    
+    return formattedText;
+}
+
+
+const cite = async () => {
+    console.log("got to cite function");
+    try {
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ pdfURL }),
+        };
+
+        // send POST request to API endpoint
+        const response = await fetch(CITATION_API_URL, requestOptions);
+        const responseData = await response.json(); // parse the response as JSON
+
+        if (response.ok) {
+            // update the chatbox with the generated message
+            const generatedMessage = responseData.content;
+            const formattedCitations = addNewLinesAfterCitations(generatedMessage);
+            chatbox.appendChild(createChatLi(formattedCitations, "incoming"));
+            chatmessages.scrollTo(0, chatbox.scrollHeight);
+        } else {
+            // log error
+            console.error('Error:', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+export default { generateResponse, summarize, cite };
 
 // event listeners
 sendChatBtn.addEventListener("click", handleChat);
@@ -127,3 +170,4 @@ chatInput.addEventListener("keydown", (event) => {
 });
 
 summarizeBtn.addEventListener("click", summarize);
+citationBtn.addEventListener("click", cite);
