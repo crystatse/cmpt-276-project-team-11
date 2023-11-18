@@ -158,6 +158,8 @@ input::placeholder{
 }
 
 #about_button{
+
+    font-family: 'Roboto Condensed', sans-serif;
     height: 30px;
     width: 60px;
     font-size: 18px;

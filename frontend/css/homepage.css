@@ -9,7 +9,7 @@ a {
 a:link,
 a:visited {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 a:hover,
 a:active {
@@ -86,9 +86,23 @@ a > li {
 
 /* title */
 h1 {
+
+    font-family: 'Merriweather', serif;
     font-size: 50px;
 }
-
+h2{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 25px;
+}
+h3{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 20px;
+}
+p{
+    font-family: 'Roboto Condensed', sans-serif;
+    word-spacing: 1px;
+    padding: 1px;;
+}
 /* Nav Bar Code */
 .header{
     background-color:#A58FE3;
@@ -125,6 +139,8 @@ input::placeholder{
 }
 
 #about_button{
+
+    font-family: 'Roboto Condensed', sans-serif;
     height: 30px;
     width: 60px;
     font-size: 18px;

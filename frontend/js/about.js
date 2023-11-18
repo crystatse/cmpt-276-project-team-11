@@ -1,8 +1,8 @@
 var inputElement = document.getElementById("search-bar");
 
-inputElement.addEventListener("keydown", function (event) {
+inputElement.addEventListener("keydown", function (e) {
     // Check if the pressed key is Enter (key code 13)
-    if (event.keyCode === 13) {
+    if (e.key === 'Enter') {
         var search = document.getElementById("search-bar").value;
         if (search !== null && search.trim() !== "") {
             localStorage.setItem("searchValue", search);

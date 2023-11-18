@@ -1,6 +1,7 @@
 console.log("Script loaded successfully");
 
 otherSiteRequest = false;
+enterKeyPressed = false;
 endResults = 5;
 searchInputValue = "";
 document.addEventListener("DOMContentLoaded", function () {
@@ -12,18 +13,17 @@ document.addEventListener("DOMContentLoaded", function () {
         // The search value exists in local storage
         otherSiteRequest = true;
         searchFromOther();
-    } else {
-        
     }
 });
 if(otherSiteRequest === false) {
 
     var inputElement = document.getElementById("search-bar");
 
-        inputElement.addEventListener("keydown", function (event) {
+        inputElement.addEventListener("keydown", function (e) {
             // Check if the pressed key is Enter (key code 13)
-            if (event.keyCode === 13) {
+            if (e.key === 'Enter') {
                 
+                enterKeyPressed = true;
                 var searchInput = document.getElementById("search-bar").value;
                 searchInputValue = searchInput;
                 // Update the UI with the search input
@@ -37,7 +37,7 @@ if(otherSiteRequest === false) {
 }
 window.addEventListener("scroll", function () {
     // Check if the user has reached the bottom of the page
-    if (window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight) {
+    if ((window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight) && (enterKeyPressed || otherSiteRequest)) {
         // Load more results when scrolling to the bottom
         loadMoreResults();
     }

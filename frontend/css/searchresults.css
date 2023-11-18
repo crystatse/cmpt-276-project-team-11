@@ -31,6 +31,8 @@ input::placeholder{
 }
 
 #about_button{
+    
+    font-family: 'Roboto Condensed', sans-serif;
     height: 30px;
     width: 60px;
     font-size: 18px;
@@ -60,6 +62,9 @@ h3{
 p{
     font-family: 'Roboto Condensed', sans-serif;
     word-spacing: 1px;
+}
+a:active {
+    text-decoration: underline;
 }
 #article-container {
     display: flex;
