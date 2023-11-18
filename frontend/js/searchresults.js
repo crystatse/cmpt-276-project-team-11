@@ -23,7 +23,7 @@ if(otherSiteRequest === false) {
         inputElement.addEventListener("keydown", function (event) {
             // Check if the pressed key is Enter (key code 13)
             if (event.keyCode === 13) {
-                // Call your function here
+                
                 var searchInput = document.getElementById("search-bar").value;
                 searchInputValue = searchInput;
                 // Update the UI with the search input
@@ -37,7 +37,7 @@ if(otherSiteRequest === false) {
 }
 window.addEventListener("scroll", function () {
     // Check if the user has reached the bottom of the page
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (window.innerHeight + window.scrollY + 100 >= document.body.offsetHeight) {
         // Load more results when scrolling to the bottom
         loadMoreResults();
     }
@@ -64,6 +64,21 @@ function searchArXiv(search, end) {
     // Get the value from the search bar
     var searchValue = search
 
+    var operators = ['AND', 'OR', 'NOT'];
+    var queryParts = [];
+    var useLogicalOperator = false;
+
+    operators.forEach(operator => {
+        if (searchValue.includes(operator)) {
+            useLogicalOperator = true;
+        }
+    });
+
+    // If a logical operator is found, construct the query with it
+    if (useLogicalOperator) {
+        // Surround each keyword with double-quotes to handle phrases
+        searchValue = searchValue.split(' ').map(keyword => `"${keyword}"`).join(' ');
+    }
     // ArXiv API endpoint
     var apiUrl = "https://export.arxiv.org/api/query";
 
