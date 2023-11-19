@@ -81,13 +81,68 @@ function addViewedPapers(papers) {
         p.innerHTML = papers[i][0];
         li.appendChild(p);
 
-    ul.insertBefore(a, ul.childNodes[0]);
-    console.log('added');
+        ul.insertBefore(a, ul.childNodes[0]);
+    }
+
+    if (limit != 0) { //show button if there is more
+        document.getElementById("showMoreViewed").style.display = "block";
+    }
+    else { //hide button if showed all
+        document.getElementById("showMoreViewed").style.display = "none";
+    }
 }
 
-// temporary testing functionality
-for (let i = 0; i < 9; i++) {
-    addViewedPapers();
+function getNewPapers(max) {
+    newPapers = []; //clear 
+    const prefix = "all:";
+    const currentDate = new Date();
+    const year = currentDate.getFullYear() % 100; 
+    const month = currentDate.getMonth() + 1; 
+
+    // Pad the month with a leading zero if it's a single digit
+    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+
+    const yearAndMonth = `${prefix}${year}${formattedMonth}`;
+
+    // Searches recent articles from current month
+    fetch(`http://export.arxiv.org/api/query?search_query=${yearAndMonth}&sortBy=submittedDate&sortOrder=descending&max_results=${max}`)
+        .then(response => response.text())
+        .then(data => {
+
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, 'text/xml');
+            const entries = xmlDoc.getElementsByTagName('entry');
+
+            // Extract Title and PDF Link
+            for (const entry of entries) {
+                const title = entry.getElementsByTagName('title')[0].textContent;
+                const pdfLink = entry.getElementsByTagName('link')[1].getAttribute('href'); 
+                newPapers.push({ title, pdfLink });
+            }
+            addNewPapers();
+
+        })
+        .catch(error => {
+            console.error('Error fetching arXiv data:', error);
+        });
+}
+
+function getViewedPapers() {
+    // Retrieve the paperHistory from localStorage
+    var paperHistoryString = localStorage.getItem('paperHistory');
+
+    // Parse the string into an array
+    var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
+    console.log(paperHistory);
+
+    if (!paperHistory|| !paperHistory.length) {
+        document.getElementById("nothing").style.display = "block";
+    }
+    else {
+        document.getElementById("nothing").style.display = "none";
+    }
+
+    addViewedPapers(paperHistory);
 }
 
 function saveHistory(title, pdf) {
@@ -149,4 +204,4 @@ searchBar.addEventListener('keydown', function(e) {
         // end
     }
 
-})}
+});
