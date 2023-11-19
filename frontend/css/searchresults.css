@@ -103,3 +103,13 @@ p{
     margin-top: 25px;
     margin-left: 13px;
 }
+
+/* hyperlink pdf title */
+.hyperlink-style {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.hyperlink-style.clicked {
+    color: purple; /* or any other color you prefer */
+}
