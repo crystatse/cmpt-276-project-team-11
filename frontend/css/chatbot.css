@@ -34,7 +34,7 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #323639;
+    background-color: #f2f2f2;
     padding: 10px 0;
 }
 
@@ -111,20 +111,22 @@ body {
 }
 
 #chatbot-nav-bar button {
-    background-color: #000;
+    background-color: #323639;
     color: #ffffff;
-    font-family: Arial, sans-serif;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
     font-size: 14px;
     height: 36px;
     min-width: 54px;
     padding: 0 20px;
     text-align: center;
-    border: none;
+    border: 1px solid white;
     cursor: pointer;
+    border-radius: 15px;
 }
 
 .header{
-    background-color:#A58FE3;
+    background-color: #000;
     height:7vh;
     display:flex;
     justify-content: space-between;
@@ -143,14 +145,15 @@ body {
 }
 
 .search-user-input {
-    border: 0px;
+    border: 2px solid white;
     width: 500px;
     height: 25px;
     margin-top: 10px;
     border-radius: 8px;
-    background-color: #7A49A5;
     padding-left: 5px;
+    background: transparent;
     color:white;
+    outline: none;
 }
 
 input::placeholder{
@@ -161,14 +164,17 @@ input::placeholder{
     height: 30px;
     width: 60px;
     font-size: 18px;
+    font-weight: 300;
     text-align: center;
-
-    background-color: #7A49A5;
     border-radius: 7px;
-
     margin-top: 7px;
     margin-right: 10px;
     padding-top: 7px;
+}
+
+#about_button .header_button {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* code for loading bubbles is from 

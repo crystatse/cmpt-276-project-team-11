@@ -4,45 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/homepage.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&display=swap" rel="stylesheet">
     <title>ResearchBuddy</title>
 </head>
 <body>
     <header>
+
+    </header>
+    <section class="background-1"> 
         <nav class="header">
             <div id="home_button">
-                <a class="header_button" href="index.html"><img src="../images/header_home_icon.png" width="50px" height="50px"></a>
+                <a class="header_button" href="index.html"><img src="../images/home-icon-purple.png" width="50px" height="50px"></a>
             </div>
             <div id="about_button"><a class="header_button" href="about.html">About</a></div>
         </nav>
-    </header>
-    <section class="search-wrapper"> 
+        <section class="search-wrapper">
         <h1>ResearchBuddy</h1>
         <form action="searchresults.html">
             <div id="header_search">
                 <input type="text" id="search"class="user-input" placeholder="Search for papers..." size="65%" autofocus>
             </div>
         </form>
-        <ul>
+        <ul id="descriptive-icons">
             <li class="icons">
-                <img src="../images/paper_icon.png" alt="paper_icon.png">
+                <img src="../images/paper-icon-white.png" alt="paper-icon-white.png">
                 <p>Find Related Papers</p>
             </li>
             <li class="icons">
-                <img src="../images/chat_icon.png" alt="chat_icon.png">
+                <img src="../images/chat-icon-white.png" alt="chat_icon.png">
                 <p>Summarize and Ask Questions</p>
             </li>
             <li class="icons">
-                <img src="../images/cite_icon.png" alt="cite_icon.png">
+                <img src="../images/pencil-icon-white.png" alt="cite_icon.png">
                 <p>Cite Your Sources</p>
             </li>
         </ul>
     </section>
-    <section>
+    </section>
+    <section id="recently-published">
         <h2>Recently Published Papers:</h2>
         <ul id="new"></ul>
         <button id="showMoreNew">View More</button>
     </section>
-    <section>
+    <section id="recently-viewed">
         <h2>Recently Viewed Papers:</h2>
         <h2 id="nothing">No recent activity available to display. </h2>
         <ul id="recent"></ul>
