@@ -187,8 +187,57 @@ input::placeholder{
     font-size: 18px;
     text-align: center;
     border-radius: 7px;
-
+    color: #fff;
     margin-top: 7px;
     margin-right: 10px;
     padding-top: 7px;
+}
+
+#about_button:link {
+    text-decoration: none;
+    color: white; 
+  }
+
+#about_button:visited {
+    text-decoration: none;
+    color: white; 
+  }
+
+  section > button {
+    height: 30px;
+    width: 105px;
+    font-size: 18px;
+    text-align: center;
+
+    background-color: #f4f2f2;
+    border-radius: 7px;
+
+    margin-right: 10px;
+    padding-top: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+
+    font-family: 'DM Sans', sans-serif;
+}
+
+section > button:hover {
+    text-decoration: underline;
+}
+
+#showMoreViewed {
+    margin-bottom: 10px;
+    display: none;
+}
+
+#nothing {
+    margin-left: 50px;
+    display: none;
+}
+
+#nothing:before {
+    content: "• ";
+    color: black;
 }
