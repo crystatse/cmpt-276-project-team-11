@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation template to create a service-linked role for Elastic Beanstalk
+
+Resources:
+  ElasticBeanstalkServiceRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "cicd-role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "sts:AssumeRole"
+            Principal:
+              Service: "elasticbeanstalk.amazonaws.com"
+      Description: "Allows Elastic Beanstalk to create and manage AWS resources on your behalf."
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess-AWSElasticBeanstalk
+        - arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth
+        - arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkService
+
+Outputs:
+  RoleArn:
+    Description: "ARN of the Elastic Beanstalk service role"
+    Value: !GetAtt [ElasticBeanstalkServiceRole, Arn]

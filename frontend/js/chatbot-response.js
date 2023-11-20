@@ -30,10 +30,10 @@ inputElement.addEventListener("keydown", function (event) {
 });
 
 // API endpoints
-const COMPLETION_API_URL = 'http://localhost:3002/get-completions'; 
-const SUMMARY_API_URL = 'http://localhost:3002/get-summary';
-const CITATION_API_URL = 'http://localhost:3002/get-citation';
-const SIMILAR_PAPERS_API_URL = 'http://localhost:3002/get-similar-papers';
+const COMPLETION_API_URL = '/get-completions'; 
+const SUMMARY_API_URL = '/get-summary';
+const CITATION_API_URL = '/get-citation';
+const SIMILAR_PAPERS_API_URL = '/get-similar-papers';
 
 // user input
 let userMessage;

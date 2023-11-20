@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const { openai } = require('./config/open-ai.js');
 const axios = require('axios');
 const pdf = require('pdf-parse');
+const path = require('path');
+
 
 require('dotenv').config();
 
@@ -13,6 +15,88 @@ const port = process.env.PORT || 3002
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'frontend', 'public')));
+
+app.get('index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
+  });
+
+// Serve about.html when /about is accessed
+app.get('about.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
+  });
+  
+// Serve searchresults.html when /searchresults is accessed
+app.get('/searchresults.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
+});
+
+// Serve searchresults.html when /searchresults is accessed
+app.get('searchresults.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
+});
+
+
+// css pages routing
+
+app.get('/css/homepage.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'css', 'homepage.css'));
+});
+
+app.get('/css/about.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'css', 'about.css'));
+});
+
+app.get('/css/searchresults.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'css', 'searchresults.css'));
+});
+
+app.get('/css/chatbot.css', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'css', 'chatbot.css'));
+});
+
+//images routing
+
+app.get('/images/article_icon.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'images', 'article_icon.png'));
+});
+
+app.get('/images/chat-icon-white.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'images', 'chat-icon-white.png'));
+});
+
+app.get('/images/home-icon-purple.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'images', 'home-icon-purple.png'));
+});
+
+app.get('/images/paper-icon-white.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'images', 'paper-icon-white.png'));
+});
+
+app.get('/images/pencil-icon-white.png', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'images', 'pencil-icon-white.png'));
+});
+
+// js files
+
+app.get('/js/homepage.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'js', 'homepage.js'));
+});
+
+app.get('/js/about.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'js', 'about.js'));
+});
+
+app.get('/js/chatbot-response.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'js', 'chatbot-response.js'));
+});
+
+app.get('/js/searchresults.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'js', 'searchresults.js'));
+});
+
+
 
 
 // endpoint to get answers to user-inputted questions
@@ -208,4 +292,4 @@ app.post('/get-similar-papers', async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-});
+}); 
