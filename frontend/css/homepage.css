@@ -71,7 +71,7 @@ ul {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    margin-left: -50px;
+    margin-left: -25px;
 }
 
 .background-1 {
@@ -79,22 +79,34 @@ ul {
 }
 
 /* paper articles */
-.published > img, p {
-    display: block;
-    padding: 0;
-    text-align: center;
-    width: 200px;
-    height: auto;
-    align-items: center;
-    margin-left: 0; 
+
+#row {
+    display: flex;
 }
+
+#recently-published, #recently-viewed {
+    flex: 1;
+    padding: 1px;
+}
+
+#vertical-line {
+    border-left: 1px solid black;
+    height: auto;
+}
+
 .published > p {
-    width: 200px;
+    margin-top: 0;
+    margin-left: 10px;
+    width: 300px;
+    height: 120px;
+    text-align: left;
+    overflow: auto;
 }
 
 .published > img {
-    width: 150px;
-    margin-left: 25px;
+    margin-left: 15px;
+    width: 70px;
+    height: 85px;
 }
 
 /* icon pic + description */
@@ -124,10 +136,13 @@ ul > a :hover {
 li {
     margin-left: 50px;
     margin-right: 50px;
+    display: flex;
 } 
 
 a > li {
-    margin: 0px;
+    /* margin: 0px; */
+    margin-right: 25px;
+    margin-left: 25px;
     padding-top: 10px;
     padding-bottom: 5px;
     border-radius: 10px;
@@ -204,7 +219,7 @@ input::placeholder{
     color: white; 
   }
 
-  section > button {
+section > button {
     height: 30px;
     width: 105px;
     font-size: 18px;
@@ -213,14 +228,14 @@ input::placeholder{
     background-color: #f4f2f2;
     border-radius: 7px;
 
-    margin-right: 10px;
-    padding-top: 7px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-left: auto;
-
+    margin-top: 0;
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
     font-family: 'DM Sans', sans-serif;
 }
 

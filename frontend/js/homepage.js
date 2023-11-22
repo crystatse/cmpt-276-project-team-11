@@ -1,6 +1,6 @@
 var newPapers = [];
-var newCount = 9;
-var viewedCount = 9;
+var newCount = 10;
+var viewedCount = 10;
 getNewPapers(newCount);
 getViewedPapers();
 
@@ -27,7 +27,8 @@ function addNewPapers() {
         a.addEventListener("click", function() {
             // Redirect to the article link when the image is clicked (temporarily functionalaity and it will be changed to go to chat page) 
             window.open(`chatbot.html?pdfURL=${encodeURIComponent(paper.pdfLink)}`, '_blank');
-            saveHistory(paper.title, paper.pdfLink);
+            saveHistory(paper.title, paper.pdfLink, paper.authors);
+            window.location.href = window.location.href.split('#')[0] + '#row';
             location.reload();
         });
         a.appendChild(li);
@@ -36,9 +37,11 @@ function addNewPapers() {
         img.src = "../images/article_icon.png";
         li.appendChild(img);
 
-        var p = document.createElement("p");
-        p.innerHTML = paper.title;
-        li.appendChild(p);
+         var pInfo = document.createElement("p");
+        pInfo.innerHTML = `<strong>Title:</strong> ${paper.title}<br>
+                           <strong>Author(s):</strong> ${paper.authors}<br>
+                           <strong>Published Date:</strong> ${paper.date.split('T')[0]}`; // Slice the date string at 'T'
+        li.appendChild(pInfo);
 
         ul.insertBefore(a, ul.childNodes[0]);
     }
@@ -70,6 +73,9 @@ function addViewedPapers(papers) {
         a.addEventListener("click", function() {
             // Redirect to the article link when the image is clicked (temporarily functionalaity and it will be changed to go to chat page) 
             window.open(`chatbot.html?pdfURL=${encodeURIComponent(papers[i][1])}`, '_blank');
+            saveHistory(papers[i][0], papers[i][1], papers[i][2]);
+            window.location.href = window.location.href.split('#')[0] + '#row';
+            location.reload();
         });
         a.appendChild(li);
 
@@ -77,9 +83,11 @@ function addViewedPapers(papers) {
         img.src = "../images/article_icon.png";
         li.appendChild(img);
 
-        var p = document.createElement("p");
-        p.innerHTML = papers[i][0];
-        li.appendChild(p);
+        var pInfo = document.createElement("p");
+        pInfo.innerHTML = `<strong>Title:</strong> ${papers[i][0]}<br>
+                           <strong>Author(s):</strong> ${papers[i][2]}<br>
+                           <strong>Last Viewed:</strong> ${papers[i][3]}`;
+        li.appendChild(pInfo);
 
         ul.insertBefore(a, ul.childNodes[0]);
     }
@@ -116,8 +124,11 @@ function getNewPapers(max) {
             // Extract Title and PDF Link
             for (const entry of entries) {
                 const title = entry.getElementsByTagName('title')[0].textContent;
+                const authorElements = entry.querySelectorAll("author");
+                const authors = Array.from(authorElements).map(author => author.textContent).join(",");
+                const date = entry.getElementsByTagName('published')[0].textContent;
                 const pdfLink = entry.getElementsByTagName('link')[1].getAttribute('href'); 
-                newPapers.push({ title, pdfLink });
+                newPapers.push({ title, authors, date, pdfLink });
             }
             addNewPapers();
 
@@ -145,13 +156,21 @@ function getViewedPapers() {
     addViewedPapers(paperHistory);
 }
 
-function saveHistory(title, pdf) {
+function saveHistory(title, pdf, authors) {
     // Retrieve the paperHistory from localStorage
     var paperHistoryString = localStorage.getItem('paperHistory');
     var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
 
+    // Get the current date and time
+    var currentDate = new Date();
+    var dateString = currentDate.toISOString().split('T')[0];
+    var timeString = currentDate.toTimeString().split(' ')[0];
+
+    // Combine date and time into a single string
+    var dateTimeString = dateString + ', ' + timeString;
+
     // Define the new paper
-    var newPaper = [title, pdf];
+    var newPaper = [title, pdf, authors, dateTimeString];
 
     // Remove any duplicate from the array
     paperHistory = paperHistory.filter(paper => paper[0] !== title || paper[1] !== pdf);
@@ -167,7 +186,7 @@ function saveHistory(title, pdf) {
 var newButton = document.getElementById("showMoreNew");
 newButton.addEventListener("click", () => {
 
-    newCount += 9;
+    newCount += 10;
     getNewPapers(newCount);
 
 })
@@ -175,7 +194,7 @@ newButton.addEventListener("click", () => {
 var viewedButton = document.getElementById("showMoreViewed");
 viewedButton.addEventListener("click", () => {
 
-    viewedCount += 9;
+    viewedCount += 10;
     getViewedPapers();
 
 })
