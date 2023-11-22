@@ -142,7 +142,7 @@ function displayResults(results) {
             // Redirect to the article link when the title is clicked
             this.classList.add('clicked');
             window.open(`chatbot.html?pdfURL=${encodeURIComponent(result.link)}`, '_blank');
-            saveHistory(result.title,result.link);
+            saveHistory(result.title,result.link, result.authors);
         });
         
         var buttonContainer = document.createElement("div");
@@ -180,13 +180,21 @@ function displayResults(results) {
     });
 }
 
-function saveHistory(title, pdf) {
+function saveHistory(title, pdf, authors) {
     // Retrieve the paperHistory from localStorage
     var paperHistoryString = localStorage.getItem('paperHistory');
     var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
 
+    // Get the current date and time
+    var currentDate = new Date();
+    var dateString = currentDate.toISOString().split('T')[0];
+    var timeString = currentDate.toTimeString().split(' ')[0];
+
+    // Combine date and time into a single string
+    var dateTimeString = dateString + ', ' + timeString;
+
     // Define the new paper
-    var newPaper = [title, pdf];
+    var newPaper = [title, pdf, authors, dateTimeString];
 
     // Remove any duplicate from the array
     paperHistory = paperHistory.filter(paper => paper[0] !== title || paper[1] !== pdf);
