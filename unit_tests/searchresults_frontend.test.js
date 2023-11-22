@@ -14,9 +14,13 @@ beforeEach(() => {
 
 test('Renders without crashing', () => {
 
+  // header testing
   expect(container.querySelector('#home_button a').getAttribute('href')).toBe('index.html');
   expect(container.querySelector('#home_button a img').getAttribute('src')).toBe('../images/home-icon-purple.png');
   expect(container.querySelector('#header_search input').placeholder).toBe('Search for papers...');
+  const searchBar = document.getElementById('header_search').querySelector('input');
+  expect(searchBar).toBeTruthy();
+  expect(searchBar.getAttribute('type')).toBe('text');
   expect(container.querySelector('#about_button a').textContent).toBe('About');
   expect(container.querySelector('#about_button a').getAttribute('href')).toBe('about.html');
 
