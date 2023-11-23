@@ -2,9 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
 
-// Include the Jest testing framework
-const jest = require('jest');
-
 const html = fs.readFileSync(path.resolve(__dirname, '../frontend/public/searchresults.html'), 'utf8');
 
 let dom;
@@ -13,10 +10,13 @@ let container;
 beforeEach(() => {
   dom = new JSDOM(html, { runScripts: 'dangerously' });
   container = dom.window.document.documentElement;
+
+  // Reset container content
+  container.innerHTML = '';
 });
 
 // Import the Jest test cases
-const { searchArXiv, displayResults, saveHistory } = require('./script');
+const { searchArXiv, displayResults, saveHistory } = require('../frontend/js/searchresults.js');
 
 // Mocking the fetch function for testing purposes
 global.fetch = jest.fn(() =>
@@ -25,24 +25,28 @@ global.fetch = jest.fn(() =>
   })
 );
 
+// Mocking localStorage
+global.localStorage = {
+  getItem: jest.fn().mockReturnValue(null),
+  removeItem: jest.fn(),
+  setItem: jest.fn(),
+};
+
+// Mocking DOMParser
+global.DOMParser = function () {
+  return {
+    parseFromString: jest.fn().mockReturnValue({
+      querySelectorAll: jest.fn(() => []),
+    }),
+  };
+};
+
+// Mocking document and its methods
+global.document = dom.window.document;
+global.window = dom.window;
+
 describe('searchArXiv', () => {
   test('searchArXiv should fetch data from ArXiv API and parse XML', async () => {
-    // Mocking localStorage
-    const mockLocalStorage = {
-      getItem: jest.fn().mockReturnValue(null),
-      removeItem: jest.fn(),
-    };
-    global.localStorage = mockLocalStorage;
-
-    // Mocking DOMParser
-    global.DOMParser = function () {
-      return {
-        parseFromString: jest.fn().mockReturnValue({
-          querySelectorAll: jest.fn(() => []),
-        }),
-      };
-    };
-
     await searchArXiv('test', 5);
 
     // Check if the fetch function was called
@@ -55,8 +59,8 @@ describe('searchArXiv', () => {
 
 describe('displayResults', () => {
   test('displayResults should render results correctly on the HTML page', () => {
-    // Mocking the HTML elements
-    document.body.innerHTML = `
+    // Mocking the HTML elements using the container
+    container.innerHTML = `
       <div id="search-results-container"></div>
       <div id="article-button-container"></div>
     `;
@@ -68,10 +72,10 @@ describe('displayResults', () => {
 
     displayResults(results);
 
-    // Check if the results are rendered correctly
-    expect(document.querySelectorAll('.results-div')).toHaveLength(results.length);
-    expect(document.querySelectorAll('.hyperlink-style')).toHaveLength(results.length);
-    expect(document.querySelectorAll('.article-icons')).toHaveLength(results.length);
+    // Check if the results are rendered correctly using the container instead of document
+    expect(container.querySelectorAll('.results-div')).toHaveLength(results.length);
+    expect(container.querySelectorAll('.hyperlink-style')).toHaveLength(results.length);
+    expect(container.querySelectorAll('.article-icons')).toHaveLength(results.length);
   });
 });
 
@@ -81,17 +85,10 @@ describe('saveHistory', () => {
     const mockDate = new Date('2023-01-01T12:00:00.000Z');
     global.Date = jest.fn(() => mockDate);
 
-    // Mocking localStorage
-    const mockLocalStorage = {
-      getItem: jest.fn().mockReturnValue('[]'),
-      setItem: jest.fn(),
-    };
-    global.localStorage = mockLocalStorage;
-
     saveHistory('Test Paper', 'http://example.com/paper', 'John Doe');
 
     // Check if localStorage.setItem was called with the correct data
-    expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+    expect(global.localStorage.setItem).toHaveBeenCalledWith(
       'paperHistory',
       JSON.stringify([['Test Paper', 'http://example.com/paper', 'John Doe', '2023-01-01, 12:00:00']])
     );
