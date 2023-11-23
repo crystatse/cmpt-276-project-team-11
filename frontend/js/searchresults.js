@@ -1,5 +1,3 @@
-console.log("Script loaded successfully");
-
 otherSiteRequest = false;
 endResults = 5;
 searchInputValue = "";
