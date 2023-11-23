@@ -1,3 +1,6 @@
+global.TextEncoder = require('text-encoding').TextEncoder;
+global.TextDecoder = require('text-encoding').TextDecoder;
+
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
@@ -24,24 +27,24 @@ test('Renders without crashing', () => {
     // title testing
     expect(container.querySelector('title').textContent).toBe('Chatbot');
     // chatbot button testing
-    expect(container.querySelector('#summarization').toBeTruthy());
-    expect(container.querySelector('#citation').toBeTruthy());
-    expect(container.querySelector('#similar-papers').toBeTruthy());
+    expect(container.querySelector('#summarization')).toBeTruthy();
+    expect(container.querySelector('#citation')).toBeTruthy();
+    expect(container.querySelector('#similar-papers')).toBeTruthy();
     // welcomeMessage testing
-    const welcomeMessage = document.querySelector('.chatbox li p');
+    const welcomeMessage = container.querySelector('.chatbox li p');
     expect(welcomeMessage).toBeTruthy();
     expect(welcomeMessage.textContent).toContain('Welcome!');
     // chatbot user field testing
-    const userInputField = document.getElementById('user-input');
-    const sendButton = document.getElementById('send');
+    const userInputField = container.querySelector('#user-input');
+    const sendButton = container.querySelector('#send');
     expect(userInputField).toBeTruthy();
     expect(sendButton).toBeTruthy();
     expect(userInputField.getAttribute('type')).toBe('text');
     // testing that loadingContainer is initially hidden
-    const loadingContainer = document.getElementById('loading-container');
+    const loadingContainer = container.querySelector('#loading-container');
     expect(loadingContainer.style.display).toBe('none');
     // testing for chatbot-response.js is linked
-    const scriptTag = document.querySelector('script[src="../js/chatbot-response.js"]');
+    const scriptTag = container.querySelector('script[src="../js/chatbot-response.js"]');
     expect(scriptTag).toBeTruthy();
     expect(scriptTag.getAttribute('type')).toBe('module');
     expect(scriptTag.getAttribute('defer')).toBe('');
@@ -49,5 +52,5 @@ test('Renders without crashing', () => {
     // testing for chatbot.css and chatbot.js is linked
     expect(container.querySelector('meta[name="viewport"]').getAttribute('content')).toBe('width=device-width, initial-scale=1.0');
     expect(container.querySelector('link[rel="stylesheet"]').getAttribute('href')).toBe('../css/chatbot.css');
-    expect(container.querySelector('script').getAttribute('src')).toBe('../js/chatbot.js');
+    expect(container.querySelector('script').getAttribute('src')).toBe('../js/searchresults.js');
 });

@@ -1,3 +1,6 @@
+global.TextEncoder = require('text-encoding').TextEncoder;
+global.TextDecoder = require('text-encoding').TextDecoder;
+
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');

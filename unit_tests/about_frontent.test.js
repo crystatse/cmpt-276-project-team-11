@@ -1,3 +1,6 @@
+global.TextEncoder = require('text-encoding').TextEncoder;
+global.TextDecoder = require('text-encoding').TextDecoder;
+
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
@@ -21,7 +24,7 @@ test('Renders without crashing', () => {
     expect(container.querySelector('#about_button a').textContent).toBe('About');
     expect(container.querySelector('#about_button a').getAttribute('href')).toBe('about.html');
 
-    expect(container.querySelector('#title').textContent).toBe('ResearchBuddy');
+    expect(container.querySelector('title').textContent).toBe('ResearchBuddy');
     expect(container.querySelector('h1').textContent).toBe('About');
     // needs some more tests for html elements
 
