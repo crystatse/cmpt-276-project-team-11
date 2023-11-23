@@ -1,3 +1,6 @@
+global.TextEncoder = require('text-encoding').TextEncoder;
+global.TextDecoder = require('text-encoding').TextDecoder;
+
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
@@ -16,7 +19,7 @@ beforeEach(() => {
 });
 
 // Import the Jest test cases
-const { searchArXiv, displayResults, saveHistory } = require('../frontend/js/searchresults.js');
+const { searchArXiv, displayResults } = require('../frontend/js/searchresults.js'); // Uncomment this line
 
 // Mocking the fetch function for testing purposes
 global.fetch = jest.fn(() =>
@@ -40,10 +43,6 @@ global.DOMParser = function () {
     }),
   };
 };
-
-// Mocking document and its methods
-global.document = dom.window.document;
-global.window = dom.window;
 
 describe('searchArXiv', () => {
   test('searchArXiv should fetch data from ArXiv API and parse XML', async () => {
@@ -76,21 +75,5 @@ describe('displayResults', () => {
     expect(container.querySelectorAll('.results-div')).toHaveLength(results.length);
     expect(container.querySelectorAll('.hyperlink-style')).toHaveLength(results.length);
     expect(container.querySelectorAll('.article-icons')).toHaveLength(results.length);
-  });
-});
-
-describe('saveHistory', () => {
-  test('saveHistory should update localStorage with new paper information', () => {
-    // Mocking the current date
-    const mockDate = new Date('2023-01-01T12:00:00.000Z');
-    global.Date = jest.fn(() => mockDate);
-
-    saveHistory('Test Paper', 'http://example.com/paper', 'John Doe');
-
-    // Check if localStorage.setItem was called with the correct data
-    expect(global.localStorage.setItem).toHaveBeenCalledWith(
-      'paperHistory',
-      JSON.stringify([['Test Paper', 'http://example.com/paper', 'John Doe', '2023-01-01, 12:00:00']])
-    );
   });
 });

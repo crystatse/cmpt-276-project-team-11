@@ -10,36 +10,38 @@ document.addEventListener("DOMContentLoaded", function () {
         // The search value exists in local storage
         otherSiteRequest = true;
         searchFromOther();
-    } else {
-        
+    }else{
+
+        otherSiteRequest = false;
     }
+
+    window.addEventListener("scroll", function () {
+        // Check if the user has reached the bottom of the page
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            // Load more results when scrolling to the bottom
+            loadMoreResults();
+        }
+    });
 });
 if(otherSiteRequest === false) {
 
     var inputElement = document.getElementById("search-bar");
+    inputElement.addEventListener("keydown", function (event) {
 
-        inputElement.addEventListener("keydown", function (event) {
-            // Check if the pressed key is Enter (key code 13)
-            if (event.keyCode === 13) {
-                // Call your function here
-                var searchInput = document.getElementById("search-bar").value;
-                searchInputValue = searchInput;
-                // Update the UI with the search input
-                document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
-                document.getElementById("title").textContent = searchInput + " - results";
+        // Check if the pressed key is Enter (key code 13)
+        if (event.keyCode === 13) {
 
-                // Load in search results using the input
-                searchArXiv(searchInput, endResults);
-            }
-        });
+            var searchInput = document.getElementById("search-bar").value;
+            searchInputValue = searchInput;
+            // Update the UI with the search input
+            document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
+            document.getElementById("title").textContent = searchInput + " - results";
+
+            // Load in search results using the input
+            searchArXiv(searchInput, endResults);
+        }
+    });
 }
-window.addEventListener("scroll", function () {
-    // Check if the user has reached the bottom of the page
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        // Load more results when scrolling to the bottom
-        loadMoreResults();
-    }
-});
 function loadMoreResults() {
     // Increment the starting point for results
     endResults += 5; // Increase by the desired number of results to load
