@@ -19,18 +19,38 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
+// html pages routing
 app.get('index.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
-  });
+});
 
-// Serve about.html when /about is accessed
 app.get('about.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
   });
 
+app.get('chatbot.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'chatbot.html'));
+});
+
+app.get('searchresults.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
+});
+
+app.get('/public/chatbot.html', (req, res) => {
+res.sendFile(path.join(__dirname, 'frontend', 'public', 'chatbot.html'));
+});
+
 app.get('/public/searchresults.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
-  });
+});
+
+app.get('/public/index.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
+});
+
+app.get('/public/about.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
+});
 // css pages routing
 
 app.get('/css/homepage.css', (req, res) => {
