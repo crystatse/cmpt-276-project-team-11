@@ -27,16 +27,6 @@ app.get('about.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
   });
   
-// Serve searchresults.html when /searchresults is accessed
-app.get('/searchresults.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
-});
-
-// Serve searchresults.html when /searchresults is accessed
-app.get('searchresults.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
-});
-
 
 // css pages routing
 
