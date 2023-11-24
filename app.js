@@ -26,7 +26,10 @@ app.get('index.html', (req, res) => {
 app.get('about.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
   });
-  
+
+app.get('/searchresults.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
+});
 
 // css pages routing
 
