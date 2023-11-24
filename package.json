@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The goal of the project is to develop a web application that helps students with writing their research papers. This application will use AI to allow students to look for recently published papers, search for papers written by specific researchers, find papers similar to the ones they have used, and generate citations and bibliographies for their sources. In addition to accessing papers, AI will also be used to summarize and answer questions about the papers. This application aims to streamline the process of finding information for research by cutting down the time spent looking for relevant papers.",
   "main": "app.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "jest"
   },
