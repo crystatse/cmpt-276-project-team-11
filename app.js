@@ -32,10 +32,7 @@ app.get('about.html', (req, res) => {
   });
 
 app.get('/public/searchresults.html', (req, res) => {
-    const searchQuery = req.query.searchInput; 
-    const searchResults = processSearchQuery(searchQuery);
-  
-    res.render('searchresults', { searchQuery, searchResults });
+    res.render('searchresults');
   });
 // css pages routing
 
