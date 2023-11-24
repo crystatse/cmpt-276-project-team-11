@@ -31,7 +31,7 @@ app.get('about.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
   });
 
-app.get('/searchresults.html', (req, res) => {
+app.get('/public/searchresults.html', (req, res) => {
     const searchQuery = req.query.searchInput; 
     const searchResults = processSearchQuery(searchQuery);
   
