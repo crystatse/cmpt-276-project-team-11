@@ -16,9 +16,6 @@ const port = process.env.PORT || 3002
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/searchresults.html', async function(req, res) {
-    res.render('searchresults');
-  });  
 
 app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
@@ -32,7 +29,7 @@ app.get('about.html', (req, res) => {
   });
 
 app.get('/public/searchresults.html', (req, res) => {
-    res.render('searchresults');
+    res.sendFile(path.join(__dirname, 'frontend', 'public', 'searchresults.html'));
   });
 // css pages routing
 
