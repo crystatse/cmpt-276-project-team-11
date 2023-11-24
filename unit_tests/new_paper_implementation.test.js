@@ -1,4 +1,3 @@
-// new.test.js
 const fetchMock = require('jest-fetch-mock');
 
 // Import the functions to be tested

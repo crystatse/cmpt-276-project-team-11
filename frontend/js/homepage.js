@@ -97,12 +97,16 @@ function addViewedPapers(papers) {
         ul.insertBefore(a, ul.childNodes[0]);
     }
 
-    if (limit != 0) { //show button if there is more
-        document.getElementById("showMoreViewed").style.display = "block";
+    // Check if the "showMoreViewed" element exists before trying to access its style property
+    var showMoreViewedButton = document.getElementById("showMoreViewed");
+    if (showMoreViewedButton) {
+        if (limit !== 0) { // show button if there is more
+            showMoreViewedButton.style.display = "block";
+        } else { // hide button if showed all
+            showMoreViewedButton.style.display = "none";
+        }
     }
-    else { //hide button if showed all
-        document.getElementById("showMoreViewed").style.display = "none";
-    }
+    return true;
 }
 
 function getNewPapers(max) {
@@ -236,5 +240,8 @@ if (searchBar !== null) {
 }
 module.exports = {
     getNewPapers,
-    addNewPapers
+    addNewPapers,
+    getViewedPapers,
+    addViewedPapers,
+    saveHistory
 };
