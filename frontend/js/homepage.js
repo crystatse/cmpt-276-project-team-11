@@ -5,7 +5,7 @@ getNewPapers(newCount);
 getViewedPapers();
 
 function addNewPapers() {
-    console.log(newPapers);
+    // console.log(newPapers);
 
     // clear list
     var ul = document.getElementById("new");
@@ -45,10 +45,15 @@ function addNewPapers() {
 
         ul.insertBefore(a, ul.childNodes[0]);
     }
+    return true;
 }
 
 function addViewedPapers(papers) {
     var ul = document.getElementById("recent");
+    if (!ul) {
+        // console.log('Element with ID "recent" not found.');
+        return;
+    }
 
     // clear list
     while (ul.firstChild) {
@@ -134,7 +139,7 @@ function getNewPapers(max) {
 
         })
         .catch(error => {
-            console.error('Error fetching arXiv data:', error);
+            // console.error('Error fetching arXiv data:', error);
         });
 }
 
@@ -144,13 +149,15 @@ function getViewedPapers() {
 
     // Parse the string into an array
     var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
-    console.log(paperHistory);
+    // console.log(paperHistory);
 
-    if (!paperHistory|| !paperHistory.length) {
-        document.getElementById("nothing").style.display = "block";
-    }
-    else {
-        document.getElementById("nothing").style.display = "none";
+    var nothingElement = document.getElementById("nothing");
+    if (nothingElement) {
+        if (!paperHistory || !paperHistory.length) {
+            nothingElement.style.display = "block";
+        } else {
+            nothingElement.style.display = "none";
+        }
     }
 
     addViewedPapers(paperHistory);
@@ -184,43 +191,50 @@ function saveHistory(title, pdf, authors) {
 }
 
 var newButton = document.getElementById("showMoreNew");
-newButton.addEventListener("click", () => {
-
-    newCount += 10;
-    getNewPapers(newCount);
-
-})
+if (newButton !== null) {
+    newButton.addEventListener("click", () => {
+        newCount += 10;
+        getNewPapers(newCount);
+    })
+}
 
 var viewedButton = document.getElementById("showMoreViewed");
-viewedButton.addEventListener("click", () => {
+if(viewedButton !== null) {
+    viewedButton.addEventListener("click", () => {
+        viewedCount += 10;
+        getViewedPapers();
 
-    viewedCount += 10;
-    getViewedPapers();
-
-})
+    })
+}
 
 var searchBar = document.getElementById('search');
-searchBar.addEventListener('keydown', function(e) {
+if (searchBar !== null) {
+    searchBar.addEventListener('keydown', function(e) {
 
-    if (e.key === 'Enter') {
-        // Save input data to localStorage
-        localStorage.setItem('searchQuery', searchBar.value);
-
-        // searching and going to search page code
-        var search = document.getElementById("search").value;
-        if (search !== null && search.trim() !== "") {
-            localStorage.setItem("searchValue", search);
-            console.log("added search value to localStorage");
+        if (e.key === 'Enter') {
+            // Save input data to localStorage
+            localStorage.setItem('searchQuery', searchBar.value);
+    
+            // searching and going to search page code
+            var search = document.getElementById("search").value;
+            if (search !== null && search.trim() !== "") {
+                localStorage.setItem("searchValue", search);
+                console.log("added search value to localStorage");
+            }
+    
+            // Construct the URL for the destination HTML file
+            var destinationURL = "../public/searchresults.html";
+    
+            // Redirect to the destination HTML file first
+            window.location.href = destinationURL;
+    
+            event.preventDefault();
+            // end
         }
-
-        // Construct the URL for the destination HTML file
-        var destinationURL = "../public/searchresults.html";
-
-        // Redirect to the destination HTML file first
-        window.location.href = destinationURL;
-
-        event.preventDefault();
-        // end
-    }
-
-});
+    
+    })
+}
+module.exports = {
+    getNewPapers,
+    addNewPapers
+};
