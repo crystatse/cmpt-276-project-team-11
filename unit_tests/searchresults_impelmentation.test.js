@@ -1,79 +1,124 @@
-global.TextEncoder = require('text-encoding').TextEncoder;
-global.TextDecoder = require('text-encoding').TextDecoder;
+const fetchMock = require('jest-fetch-mock');
 
-const fs = require('fs');
-const path = require('path');
-const { JSDOM } = require('jsdom');
+// Import the functions to be tested
+const { searchArXiv, displayResults } = require('../frontend/js/searchresults.js');
 
-const html = fs.readFileSync(path.resolve(__dirname, '../frontend/public/searchresults.html'), 'utf8');
-
-let dom;
-let container;
-
-beforeEach(() => {
-  dom = new JSDOM(html, { runScripts: 'dangerously' });
-  container = dom.window.document.documentElement;
-
-  // Reset container content
-  container.innerHTML = '';
+// Mocking DOMParser within the module being tested
+jest.mock('../frontend/js/searchresults.js', () => {
+  const originalModule = jest.requireActual('../frontend/js/searchresults.js');
+  return {
+    ...originalModule,
+    DOMParser: {
+      parseFromString: jest.fn().mockReturnValue({
+        getElementsByTagName: jest.fn(() => []),
+      }),
+    },
+  };
 });
-
-// Import the Jest test cases
-const { searchArXiv, displayResults } = require('../frontend/js/searchresults.js'); // Uncomment this line
 
 // Mocking the fetch function for testing purposes
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    text: () => Promise.resolve('<xml>Mocked XML data</xml>'),
-  })
-);
+jest.mock('node-fetch', () => ({
+  fetch: jest.fn(),
+}));
 
-// Mocking localStorage
-global.localStorage = {
-  getItem: jest.fn().mockReturnValue(null),
-  removeItem: jest.fn(),
-  setItem: jest.fn(),
-};
+// TEST TEST
+describe('test', () => {
+  test('test', () => {
+    // Set up the initial state for testing
+    expect(searchArXiv).toBeInstanceOf(Function);
+  });
+});
 
-// Mocking DOMParser
-global.DOMParser = function () {
-  return {
-    parseFromString: jest.fn().mockReturnValue({
-      querySelectorAll: jest.fn(() => []),
-    }),
-  };
-};
+// UNIT TESTING
+
+// ARXIV ID SEARCH UNIT TEST
 
 describe('searchArXiv', () => {
-  test('searchArXiv should fetch data from ArXiv API and parse XML', async () => {
-    await searchArXiv('test', 5);
-
-    // Check if the fetch function was called
-    expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('https://export.arxiv.org/api/query'));
-
-    // Check if the DOMParser was called
-    expect(global.DOMParser().parseFromString).toHaveBeenCalledWith('<xml>Mocked XML data</xml>', 'text/xml');
+  test('searchArXiv with ID', async () => {
+    // Set up the initial state for testing
+    const search = "arXiv:1802.07361v1"; // random arXiv ID
+    const result = await searchArXiv(search, 1);
+    expect(result).toEqual(expect.any(Array));
   });
 });
 
-describe('displayResults', () => {
-  test('displayResults should render results correctly on the HTML page', () => {
-    // Mocking the HTML elements using the container
-    container.innerHTML = `
-      <div id="search-results-container"></div>
-      <div id="article-button-container"></div>
-    `;
+// ARXIV KEYWORD SEARCH UNIT TEST
 
-    const results = [
-      { title: 'Test Title 1', summary: 'Summary 1', authors: 'Author 1', link: 'http://example.com/1' },
-      { title: 'Test Title 2', summary: 'Summary 2', authors: 'Author 2', link: 'http://example.com/2' },
-    ];
-
-    displayResults(results);
-
-    // Check if the results are rendered correctly using the container instead of document
-    expect(container.querySelectorAll('.results-div')).toHaveLength(results.length);
-    expect(container.querySelectorAll('.hyperlink-style')).toHaveLength(results.length);
-    expect(container.querySelectorAll('.article-icons')).toHaveLength(results.length);
+describe('searchArXiv', () => {
+  test('searchArXiv with AND Keywords', async () => {
+    // Set up the initial state for testing
+    const search = "HTML AND Ai";
+    const result = await searchArXiv(search, 1);
+    expect(result).toEqual(expect.any(Array));
+  });
+  test('searchArXiv with OR Keywords', async () => {
+    // Set up the initial state for testing
+    const search = "HTML OR Ai";
+    const result = await searchArXiv(search, 1);
+    expect(result).toEqual(expect.any(Array));
+  });
+  test('searchArXiv with NOT Keywords', async () => {
+    // Set up the initial state for testing
+    const search = "HTML NOT Ai";
+    const result = await searchArXiv(search, 1);
+    expect(result).toEqual(expect.any(Array));
   });
 });
+
+// ARXIV METADATA RETRIEVAL UNIT TEST
+
+describe('searchArXiv', () => {
+  test('searchArXiv returns metadata', async () => {
+    // Set up the initial state for testing
+    const search = "HTML"; // random arXiv entry
+    const result = await searchArXiv(search, 1);
+    expect(result).toEqual(expect.any(Array));
+
+    // Check properties of each element in the array
+    result.forEach(entry => {
+      expect(entry).toHaveProperty('title');
+      expect(entry.title).not.toBeUndefined();
+      expect(entry.title).not.toBe('');
+
+      expect(entry).toHaveProperty('summary');
+      expect(entry.summary).not.toBeUndefined();
+      expect(entry.summary).not.toBe('');
+
+      expect(entry).toHaveProperty('authors');
+      expect(entry.authors).not.toBeUndefined();
+      expect(entry.authors).not.toBe('');
+
+      expect(entry).toHaveProperty('link');
+      expect(entry.link).not.toBeUndefined();
+      expect(entry.link).not.toBe('');
+    });
+  });
+});
+// INTEGRATION TESTING
+
+// SEARCH RESULTS INTEGRATION TEST
+
+global.fetch = require('jest-fetch-mock');
+
+describe("searchArXiv", () => {
+  test("searchArXiv should fetch data from ArXiv API and call displayResults", async () => {
+    // Set up the initial state for testing
+    document.body.innerHTML = "<div id='article-container'><div id='article-button-container'></div><div id='search-results-container'></div></div>";
+
+    // Call the searchArXiv function
+    await searchArXiv("test", 1);
+
+    const articleContainer = document.getElementById('article-container');
+    const articleButtonContainer = document.getElementById('article-button-container');
+    const searchResultsContainer = document.getElementById('search-results-container');
+
+    // Check if the element exists
+    expect(articleContainer).not.toBeNull();
+    expect(articleButtonContainer).not.toBeNull();
+    expect(searchResultsContainer).not.toBeNull();
+
+    expect(articleContainer.children.length).toBeGreaterThan(0);
+
+  });
+});
+

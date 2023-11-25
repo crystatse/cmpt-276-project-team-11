@@ -10,11 +10,28 @@ document.addEventListener("DOMContentLoaded", function () {
         // The search value exists in local storage
         otherSiteRequest = true;
         searchFromOther();
-    }else{
-
-        otherSiteRequest = false;
     }
+    console.log("otherSiteRequest: " + otherSiteRequest);
+    if(otherSiteRequest === false) {
 
+        console.log("keydown Event Listener added");
+        var inputElement = document.getElementById("search-bar");
+        inputElement.addEventListener("keydown", function (event) {
+    
+            // Check if the pressed key is Enter (key code 13)
+            if (event.keyCode === 13) {
+    
+                var searchInput = document.getElementById("search-bar").value;
+                searchInputValue = searchInput;
+                // Update the UI with the search input
+                document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
+                document.getElementById("title").textContent = searchInput + " - results";
+    
+                // Load in search results using the input
+                searchArXiv(searchInput, endResults);
+            }
+        });
+    }
     window.addEventListener("scroll", function () {
         // Check if the user has reached the bottom of the page
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
@@ -23,25 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-if(otherSiteRequest === false) {
 
-    var inputElement = document.getElementById("search-bar");
-    inputElement.addEventListener("keydown", function (event) {
-
-        // Check if the pressed key is Enter (key code 13)
-        if (event.keyCode === 13) {
-
-            var searchInput = document.getElementById("search-bar").value;
-            searchInputValue = searchInput;
-            // Update the UI with the search input
-            document.getElementById("search-results-for").textContent = "Search Results for: " + searchInput;
-            document.getElementById("title").textContent = searchInput + " - results";
-
-            // Load in search results using the input
-            searchArXiv(searchInput, endResults);
-        }
-    });
-}
 function loadMoreResults() {
     // Increment the starting point for results
     endResults += 5; // Increase by the desired number of results to load
@@ -51,6 +50,7 @@ function loadMoreResults() {
 function searchFromOther() {
 
     console.log("searchFromOther called");
+    otherSiteRequest = false;
     var search = localStorage.getItem("searchValue");
     searchInputValue = search;
     localStorage.removeItem("searchValue");
@@ -60,65 +60,86 @@ function searchFromOther() {
 }
 
 function searchArXiv(search, end) {
+    return new Promise((resolve, reject) => {
+        // Get the value from the search bar
+        var searchValue = search;
 
-    // Get the value from the search bar
-    var searchValue = search
+        console.log("searchValue: " + searchValue);
 
-    // ArXiv API endpoint
-    var apiUrl = "https://export.arxiv.org/api/query";
+        // ArXiv API endpoint
+        var apiUrl = "https://export.arxiv.org/api/query";
 
-    // Construct the query parameters
-    var params = {
-        search_query: "all:" + searchValue,
-        sortBy: "relevance",
-        sortOrder: "descending",
-        start: 0,
-        max_results: end // number of results to load
-    };
+        var params;
+        // Construct the query parameters
+        if (searchValue.includes("arXiv:")) {
+            const id = searchValue.replace("arXiv:", "");
 
-    // Convert the params object to a query string
-    var queryString = Object.keys(params).map(key => key + '=' + encodeURIComponent(params[key])).join('&');
+            // Construct the query parameters
+            params = {
+                id_list: id,
+                sortBy: "relevance",
+                sortOrder: "descending",
+                start: 0,
+                max_results: end // number of results to load
+            };
+        } else {
+            params = {
+                search_query: "all:" + searchValue,
+                sortBy: "relevance",
+                sortOrder: "descending",
+                start: 0,
+                max_results: end // number of results to load
+            };
+        }
 
-    // Make the API request
-    fetch(apiUrl + '?' + queryString)
-        .then(response => response.text())
-        .then(data => {
+        // Convert the params object to a query string
+        var queryString = Object.keys(params).map(key => key + '=' + encodeURIComponent(params[key])).join('&');
 
-            // print output to console
-            console.log(data);
+        // Make the API request
+        fetch(apiUrl + '?' + queryString)
+            .then(response => response.text())
+            .then(data => {
+                // print output to console
+                //console.log(data);
 
-            //Parse XML file
-            var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(data, "text/xml");
+                //Parse XML file
+                var parser = new DOMParser();
+                try {
+                    var xmlDoc = parser.parseFromString(data, "text/xml");
+                  } catch (error) {
+                    console.error('Error parsing XML:', error);
+                  }
+                // Extracting titles, summaries, authors, and links from the XML
+                var entries = xmlDoc.querySelectorAll("entry");
+                var results = [];
 
-            // Extracting titles, summaries, authors, and links from the XML
-            var entries = xmlDoc.querySelectorAll("entry");
-            var results = [];
+                entries.forEach(entry => {
+                    // Extract title and summary
+                    var title = entry.querySelector("title").textContent;
+                    var summary = entry.querySelector("summary").textContent;
 
-            entries.forEach(entry => {
+                    // Extract authors and concatenate their names
+                    var authorElements = entry.querySelectorAll("author");
+                    var authors = Array.from(authorElements).map(author => author.textContent).join(",");
+
+                    // Extract link
+                    var linkElement = entry.querySelector("link[title='pdf']");
+                    var link = linkElement ? linkElement.getAttribute("href") : "Link not available";
+
+                    results.push({ title, summary, authors, link });
+                });
+
+                resolve(results);
+                // Display titles, summaries, authors, and links on the HTML page
+                displayResults(results);
                 
-                // Extract title and summary
-                var title = entry.querySelector("title").textContent;
-                var summary = entry.querySelector("summary").textContent;
-
-                // Extract authors and concatenate their names
-                var authorElements = entry.querySelectorAll("author");
-                var authors = Array.from(authorElements).map(author => author.textContent).join(",");
-
-                // Extract link
-                var linkElement = entry.querySelector("link[title='pdf']");
-                var link = linkElement ? linkElement.getAttribute("href") : "Link not available";
-
-                results.push({ title, summary, authors, link });
+            })
+            .catch(error => {
+                // Error catcher
+                console.error('Error fetching data:', error);
+                reject(error);
             });
-
-            // Display titles, summaries, authors, and links on the HTML page
-            displayResults(results);
-        })
-        .catch(error => {
-            // Error catcher
-            console.error('Error fetching data:', error);
-        });
+    });
 }
 
 function displayResults(results) {
@@ -206,4 +227,7 @@ function saveHistory(title, pdf, authors) {
     // Store the updated array in localStorage
     localStorage.setItem('paperHistory', JSON.stringify(paperHistory));
 }
-
+module.exports = {
+    searchArXiv,
+    displayResults
+};
