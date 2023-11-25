@@ -79,7 +79,7 @@ app.get('/images/chat-icon-white.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'images', 'chat-icon-white.png'));
 });
 
-app.get('/images/home-icon-white.png', (req, res) => {
+app.get('/images/house-icon-white.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'images', 'house-icon-white.png'));
 });
 
