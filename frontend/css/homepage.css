@@ -169,7 +169,7 @@ h2 {
 
 .header_button {
     border: none;
-    color: white;
+    color: #efefef;
     text-decoration: none;
     display: inline-block;
 
@@ -180,7 +180,7 @@ h2 {
 }
 
 .user-input {
-    border: 1px solid white;
+    border: 1px solid #efefef;
     width: 500px;
     height: 25px;
     margin-top: 10px;
@@ -189,11 +189,11 @@ h2 {
     background-color: transparent;
     padding-left: 5px;
     outline: none;
-    color: #fff;
+    color: #efefef;
 }
 
 input::placeholder{
-    color:white;
+    color: #efefef;
     font-family: 'Jura', sans-serif;
 }
 
@@ -203,7 +203,7 @@ input::placeholder{
     font-size: 18px;
     text-align: center;
     border-radius: 7px;
-    color: #fff;
+    color: #efefef;
     margin-top: 7px;
     margin-right: 10px;
     padding-top: 7px;
@@ -211,12 +211,12 @@ input::placeholder{
 
 #about_button:link {
     text-decoration: none;
-    color: white; 
+    color: #efefef; 
   }
 
 #about_button:visited {
     text-decoration: none;
-    color: white; 
+    color: #efefef; 
   }
 
 section > button {

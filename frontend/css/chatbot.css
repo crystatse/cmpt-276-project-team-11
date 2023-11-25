@@ -134,7 +134,7 @@ body {
 
 .header_button {
     border: none;
-    color: white;
+    color: #efefef;
     text-decoration: none;
     display: inline-block;
 
@@ -145,19 +145,19 @@ body {
 }
 
 .search-user-input {
-    border: 2px solid white;
+    border: 2px solid #efefef;
     width: 500px;
     height: 25px;
     margin-top: 10px;
     border-radius: 8px;
     padding-left: 5px;
     background: transparent;
-    color:white;
+    color:#efefef;
     outline: none;
 }
 
 input::placeholder{
-    color:white;
+    color:#efefef;
 }
 
 #about_button{
@@ -173,7 +173,7 @@ input::placeholder{
 }
 
 #about_button .header_button {
-    color: white;
+    color: #efefef;
     font-family: Arial, Helvetica, sans-serif;
 }
 
