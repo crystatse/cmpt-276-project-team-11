@@ -20,7 +20,7 @@ test('Renders without crashing', () => {
     expect(container.querySelector('h1').textContent).toBe('ResearchBuddy');
     expect(container.querySelector('#search').placeholder).toBe('Search for papers...');
     expect(container.querySelector('#home_button a').getAttribute('href')).toBe('index.html');
-    expect(container.querySelector('#home_button a img').getAttribute('src')).toBe('../images/home-icon-purple.png');
+    expect(container.querySelector('#home_button a img').getAttribute('src')).toBe('../images/house-icon-white.png');
     expect(container.querySelector('#about_button a').textContent).toBe('About');
 
     expect(container.querySelector('title').textContent).toBe('ResearchBuddy');
