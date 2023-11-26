@@ -185,18 +185,6 @@ function displayResults(results) {
 
         // Append the result container to the results container
         resultsContainer.appendChild(resultContainer);
-        // Create a new img element for each result
-        var articleImage = document.createElement("img");
-        articleImage.classList.add("article-icons"); // added to "image-div" class
-        articleImage.src = "../images/article_icon.png";
-        articleImage.alt = "Read Article Image";
-        articleImage.addEventListener("click", function() {
-            // Redirect to the article link when the image is clicked (temporarily functionalaity and it will be changed to go to chat page) 
-            window.open(`chatbot.html?pdfURL=${encodeURIComponent(result.link)}`, '_blank');
-            saveHistory(result.title,result.link);
-        });
-
-        buttonContainer.appendChild(articleImage);
         buttonsContainer.appendChild(buttonContainer);
     });
 }

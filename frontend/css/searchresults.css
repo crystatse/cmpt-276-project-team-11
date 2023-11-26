@@ -1,6 +1,6 @@
 /* Nav Bar Code Start */
 .header{
-    background-color:#000;
+    background-color:#2e2e2e;
     height:55px;
     display:flex;
     justify-content: space-between;
@@ -49,67 +49,64 @@ input::placeholder{
     font-family: Arial, Helvetica, sans-serif;
 }
 /*Nav Bar Code End*/
+
 body{
     margin: 0px;
     background-color: #efefef;
+    font-family: 'DM Sans', sans-serif;
 }
 h1{
-    color: #541f87;
+    color: #000;
     padding: 10px;
     font-family: 'DM Sans', sans-serif;
     font-size: 35px;
     font-weight: 6;
+    margin-left: 20px;
 }
+
 h3{
     font-family: 'DM Sans', sans-serif;
     font-size: 25px;
+    font-weight: 6;
 }
+
 p{
     font-family: 'DM Sans', sans-serif;
     word-spacing: 1px;
+    font-weight: 6;
 }
+
 #article-container {
     display: flex;
+    margin-bottom: 10px;
+
 }
-#article-button-container {
-    padding: 10px;
-    flex: 0.15;
-}
+
 #search-results-container{
-    margin: 0;
-    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
     flex: 1;
     align-items: center;
     justify-content: center;
 }
 .results-div{
     flex: 1;
-    height: 325px;
-    margin-bottom: 18px;
-}
-.image-div{
-
-    width: 225px;
-    height: 325px;
-    margin-bottom: 15px;
-    margin-left: 0px;
-}
-.article-icons{
-
-    width: 200px;
-    height: 250px;
-    background-color: rgba(0, 0, 0, 0);
-    cursor: pointer;
-    margin-top: 25px;
-    margin-left: 13px;
+    margin-bottom: 20px;
+    padding: 5px;
+    padding-left: 10px;
+    background-color: #fff;
 }
 
 /* hyperlink pdf title */
 .hyperlink-style {
-    color: blue;
-    text-decoration: underline;
+    color: #A58FE3;
+    text-decoration: none;
     cursor: pointer;
 }
 .hyperlink-style.clicked {
     color: purple; /* or any other color you prefer */
+}
+
+.hyperlink-style:hover{
+    text-decoration: underline;
 }
