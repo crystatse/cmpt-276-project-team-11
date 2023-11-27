@@ -68,12 +68,16 @@ h3{
     font-family: 'DM Sans', sans-serif;
     font-size: 25px;
     font-weight: 6;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 p{
     font-family: 'DM Sans', sans-serif;
     word-spacing: 1px;
     font-weight: 6;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #article-container {
