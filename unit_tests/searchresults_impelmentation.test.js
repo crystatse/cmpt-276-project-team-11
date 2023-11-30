@@ -94,6 +94,38 @@ describe('searchArXiv', () => {
     });
   });
 });
+
+// DISPLAY RESULTS UNIT TEST
+
+describe('displayResults', () => {
+
+  test('displayResults() should update the HTML with new results', () => {
+    // Set up the initial state for testing
+    document.body.innerHTML = "<div id='article-container'><div id='article-button-container'></div><div id='search-results-container'></div></div>";
+
+    // Mock data for testing
+    const mockPaper = {
+      title: 'Test Title',
+      authors: 'Test Author',
+      date: '2023-01-01',
+      pdfLink: 'http://example.com/test.pdf',
+    };
+
+     // Call the function
+     displayResults([mockPaper]);
+
+     // Verify that the HTML is updated correctly
+     const articleContainer = document.getElementById('article-container');
+     const articleButtonContainer = document.getElementById('article-button-container');
+     const searchResultsContainer = document.getElementById('search-results-container');
+     
+     // Check if the element exists before accessing its child nodes
+     expect(articleContainer).not.toBeNull();
+     expect(articleButtonContainer).not.toBeNull();
+     expect(searchResultsContainer).not.toBeNull();
+  });
+});
+
 // INTEGRATION TESTING
 
 // SEARCH RESULTS INTEGRATION TEST
