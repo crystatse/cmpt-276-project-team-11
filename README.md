@@ -4,18 +4,15 @@ The goal of the project is to develop a web application that helps students with
 ## Technology Stack
 For this project, we will be using HTML, CSS, and Javascript for the frontend components. NodeJS and Express will also be used for the server-side development. We chose this tech stack because of its established reliability, extensive ecosystem, seamless integration capabilities, and abundant online resources and documentation. It ensures a coherent and efficient development process, providing scalability, ease of development, and a robust foundation for integrating our APIs. 
 
-## Contributors
-This project was made by Crysta Tse, Gurveen Gill, Saif Ali, and Steven Ao.
+## Setup Instructions
+To run the application locally:
+1. Create a .env file and add your OpenAI API key as "API_KEY=<your_api_key>"
+2. Install NodeJS and the "live server" extension on VS Code
+3. In the terminal, run the command: 'npx live-server'
+4. Split the terminal and in the second terminal, run the command: 'node app.js'
+5. Go to the opened tab in your browser and click on the frontend folder, then click on the public folder
 
-Personal Github links:
-
-Crysta: https://github.com/crystatse
-
-Gurveen: https://github.com/gurveeng
-
-Saif: https://github.com/safesaif21
-
-Steven: https://github.com/Steven-Ao
+Now, the application should be fully functional with its OpenAI chatbot features.
 
 ## Chosen APIs
 We will be using both ChatGPT API and ArXiv API.
@@ -36,3 +33,16 @@ ArXiv:
 - Leverage the API to fetch comprehensive metadata for research papers, including details like title, authors, abstract, publication date, DOI, ArXiv ID, categories, license information, version, comments, links, and availability in various formats. 
 - Enable users to search for and retrieve multiple research papers that match their desired keywords or search terms. 
 - Retrieve recent papers using the ArXiv API to fetch a list of the most recently published papers. 
+
+## Contributors
+This project was made by Crysta Tse, Gurveen Gill, Saif Ali, and Steven Ao.
+
+Personal Github links:
+
+Crysta: https://github.com/crystatse
+
+Gurveen: https://github.com/gurveeng
+
+Saif: https://github.com/safesaif21
+
+Steven: https://github.com/Steven-Ao
