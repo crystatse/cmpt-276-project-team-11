@@ -4,6 +4,18 @@ The goal of the project is to develop a web application that helps students with
 ## Technology Stack
 For this project, we will be using HTML, CSS, and Javascript for the frontend components. NodeJS and Express will also be used for the server-side development. We chose this tech stack because of its established reliability, extensive ecosystem, seamless integration capabilities, and abundant online resources and documentation. It ensures a coherent and efficient development process, providing scalability, ease of development, and a robust foundation for integrating our APIs. 
 
+## Contributors
+This project was made by Crysta Tse, Gurveen Gill, Saif Ali, and Steven Ao.
+
+Personal Github links:
+
+Crysta: https://github.com/crystatse
+
+Gurveen: https://github.com/gurveeng
+
+Saif: https://github.com/safesaif21
+
+Steven: https://github.com/Steven-Ao
 
 ## Chosen APIs
 We will be using both ChatGPT API and ArXiv API.
