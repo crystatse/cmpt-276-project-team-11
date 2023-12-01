@@ -2,7 +2,7 @@
 The goal of the project is to develop a web application that helps students with writing their research papers. This application will use AI to allow students to look for recently published papers, search for papers written by specific researchers, find papers similar to the ones they have used, and generate citations and bibliographies for their sources. In addition to accessing papers, AI will also be used to summarize and answer questions about the papers. This application aims to streamline the process of finding information for research by cutting down the time spent looking for relevant papers.  
 
 ## Technology Stack
-For this project, we will be using NodeJS and HTML/CSS. We chose this tech stack because of its established reliability, extensive ecosystem, seamless integration capabilities, and abundant online resources and documentation. It ensures a coherent and efficient development process, providing scalability, ease of development, and a robust foundation for integrating our APIs. 
+For this project, we will be using HTML, CSS, and Javascript for the frontend components. NodeJS and Express will also be used for the server-side development. We chose this tech stack because of its established reliability, extensive ecosystem, seamless integration capabilities, and abundant online resources and documentation. It ensures a coherent and efficient development process, providing scalability, ease of development, and a robust foundation for integrating our APIs. 
 
 
 ## Chosen APIs
