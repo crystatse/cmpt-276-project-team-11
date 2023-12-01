@@ -7,12 +7,16 @@ For this project, we will be using HTML, CSS, and Javascript for the frontend co
 ## Setup Instructions
 To run the application locally:
 1. Create a .env file and add your OpenAI API key as "API_KEY=<your_api_key>"
-2. Install NodeJS and the "live server" extension on VS Code
-3. In the terminal, run the command: 'npx live-server'
-4. Split the terminal and in the second terminal, run the command: 'node app.js'
-5. Go to the opened tab in your browser and click on the frontend folder, then click on the public folder
+2. Make sure NodeJs is v18 or higher*
+3. Go to terminal and run command 'npm install' to install dependencies
+4. Run command 'node app.js' to start server
+5. Open http://localhost:3002/ on your local browser to view the website
 
 Now, the application should be fully functional with its OpenAI chatbot features.
+
+You can stop the server whenever by using ctrl+C.
+
+*If you do not have NodeJS installed, you can install it here: https://nodejs.org/en
 
 ## Chosen APIs
 We will be using both ChatGPT API and ArXiv API.
