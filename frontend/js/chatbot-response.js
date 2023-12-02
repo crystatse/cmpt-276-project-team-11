@@ -10,24 +10,26 @@ const similarPapersBtn = document.querySelector("#similar-papers");
 // navigation search bar funtionality
 var inputElement = document.getElementById("search-bar");
 
-inputElement.addEventListener("keydown", function (event) {
-    // Check if the pressed key is Enter (key code 13)
-    if (event.keyCode === 13) {
-        var search = document.getElementById("search-bar").value;
-        if (search !== null && search.trim() !== "") {
-            localStorage.setItem("searchValue", search);
-            console.log("added search value to localStorage");
+if (inputElement) {
+    inputElement.addEventListener("keydown", function (event) {
+        // Check if the pressed key is Enter (key code 13)
+        if (event.keyCode === 13) {
+            var search = document.getElementById("search-bar").value;
+            if (search !== null && search.trim() !== "") {
+                localStorage.setItem("searchValue", search);
+                console.log("added search value to localStorage");
+            }
+
+            // Construct the URL for the destination HTML file
+            var destinationURL = "../public/searchresults.html";
+
+            // Redirect to the destination HTML file first
+            window.location.href = destinationURL;
+
+            event.preventDefault();
         }
-
-        // Construct the URL for the destination HTML file
-        var destinationURL = "../public/searchresults.html";
-
-        // Redirect to the destination HTML file first
-        window.location.href = destinationURL;
-
-        event.preventDefault();
-    }
-});
+    });
+}
 
 // API endpoints
 const COMPLETION_API_URL = '/get-completions'; 
@@ -241,16 +243,39 @@ const similarPapers = async () => {
     }
 };
 
-export default { generateResponse, summarize, cite };
-
 // event listeners
-sendChatBtn.addEventListener("click", handleChat);
-chatInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        handleChat();
-    }
-});
+if (sendChatBtn) {
+    sendChatBtn.addEventListener("click", handleChat);
+}
 
-summarizeBtn.addEventListener("click", summarize);
-citationBtn.addEventListener("click", cite);
-similarPapersBtn.addEventListener("click", similarPapers);
+if (chatInput) {
+    chatInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            handleChat();
+        }
+    });
+}
+
+if (summarizeBtn) {
+    summarizeBtn.addEventListener("click", summarize);
+}
+
+if (citationBtn) {
+    citationBtn.addEventListener("click", cite);
+}
+
+if (similarPapersBtn) {
+    similarPapersBtn.addEventListener("click", similarPapers);
+}
+
+module.exports = {
+    generateResponse,
+    cite,
+    summarize,
+    similarPapers,
+    addNewLinesAfterCitations,
+    displayBubbles,
+    hideBubbles,
+    createChatLi,
+    generateResponse
+};
