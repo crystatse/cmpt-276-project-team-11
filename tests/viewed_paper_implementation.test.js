@@ -31,6 +31,7 @@ const localStorageMock = (() => {
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
+// INTEGRATION TEST
 
 describe('addViewedPapers', () => {
   test('addViewedPapers should update the HTML with viewed papers', () => {
@@ -57,6 +58,8 @@ describe('addViewedPapers', () => {
   });
 });
 
+// UNIT TEST
+
 describe('saveHistory', () => {
   test('saveHistory should update the localStorage with new history', () => {
     // Set up the initial state for testing
@@ -81,6 +84,8 @@ describe('saveHistory', () => {
     expect(new Date(timestamp)).toBeInstanceOf(Date);
   });
 });
+
+// UNIT TEST
 
 describe('getViewedPapers', () => {
   test('getViewedPapers should update the HTML with papers from localStorage', () => {
@@ -109,7 +114,6 @@ describe('getViewedPapers', () => {
     if (ul) {
       expect(ul.childNodes.length).toBe(mockPapers.length);
       expect(ul.firstChild.nodeName).toBe('A'); // Check if the child is an anchor element
-      // Add more assertions based on your HTML structure
     }
   });
 });

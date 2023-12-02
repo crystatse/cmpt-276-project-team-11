@@ -143,7 +143,7 @@ function getNewPapers(max) {
 
         })
         .catch(error => {
-            // console.error('Error fetching arXiv data:', error);
+            console.error('Error fetching arXiv data:', error);
         });
 }
 
