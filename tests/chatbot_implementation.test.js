@@ -79,43 +79,43 @@ test('createChatLi should create a chat list item', () => {
 });
 
 // Integration Test
-describe('Summarization Feature Integration Tests', () => {
-    test('summarize should fetch data and update the DOM', async () => {
-      // Set up the initial state for testing
-      document.body.innerHTML = "<div id='loading-container'></div><div class='chatbox'></div>";
-  
-      // Mock data for testing
-      const mockData = {
-        content: 'Mocked summary content',
-      };
-  
-      // Mock fetch response
-      fetchMock.mockResponseOnce(JSON.stringify(mockData));
-  
-      // Call the summarize function
-      await summarize('mocked-pdf-url');
-  
-      // Check if the DOM is updated correctly
-      const loadingContainer = document.getElementById('loading-container');
-      const chatbox = document.querySelector('.chatbox');
-  
-      // Check if the element exists
-      expect(loadingContainer).not.toBeNull();
-      expect(chatbox).not.toBeNull();
-  
-      // Check if functions and other features are working
-      expect(displayBubbles).not.toBeNull();
-      expect(hideBubbles).not.toBeNull();
-      expect(createChatLi).not.toBeNull();
-      expect(summarize).not.toBeNull();
-      expect(cite).not.toBeNull();
-      expect(similarPapers).not.toBeNull();
-  
-      // check if the chatbox has a new child with the generated message
-      const generatedMessage = mockData.content;
-      const generatedMessageElement = Array.from(chatbox.querySelectorAll('li.incoming p')).find((p) => p.textContent.includes(generatedMessage));
-      expect(generatedMessageElement).not.toBeNull();
+describe('Generate Response Feature Integration Tests', () => {
+    test('generateResponse should fetch data and update the DOM', async () => {
+        // Set up the initial state for testing
+        document.body.innerHTML = "<div id='loading-container'></div><div class='chatbox'></div>";
+
+        // Mock data for testing
+        const mockData = {
+            content: 'Mocked response content',
+        };
+
+        // Mock fetch response
+        fetchMock.mockResponseOnce(JSON.stringify(mockData));
+
+        // Call the generateResponse function
+        await generateResponse('Hello, chatbot!');
+
+        // Check if the DOM is updated correctly
+        const loadingContainer = document.getElementById('loading-container');
+        const chatbox = document.querySelector('.chatbox');
+
+        // Check if the element exists
+        expect(loadingContainer).not.toBeNull();
+        expect(chatbox).not.toBeNull();
+
+        // Check if functions and other features are working
+        expect(displayBubbles).not.toBeNull();
+        expect(hideBubbles).not.toBeNull();
+        expect(createChatLi).not.toBeNull();
+        expect(generateResponse).not.toBeNull();
+        expect(cite).not.toBeNull();
+        expect(summarize).not.toBeNull();
+        expect(similarPapers).not.toBeNull();
+
+        // Check if the chatbox has a new child with the generated message
+        const generatedMessage = mockData.content;
+        const generatedMessageElement = Array.from(chatbox.querySelectorAll('li.incoming p')).find((p) => p.textContent.includes(generatedMessage));
+        expect(generatedMessageElement).not.toBeNull();
     });
-  });
-  
+});
   
