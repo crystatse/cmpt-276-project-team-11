@@ -6,7 +6,7 @@ For this project, we will be using HTML, CSS, and Javascript for the frontend co
 
 ## Setup Instructions
 To run the application locally:
-1. Create a .env file and add your OpenAI API key as "API_KEY=<your_api_key>"
+1. Create a .env file and add the OpenAI API key as: "API_KEY=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"
 2. Make sure NodeJs is v18 or higher*
 3. Go to terminal and run command 'npm install' to install dependencies
 4. Run command 'node app.js' to start server
