@@ -4,17 +4,14 @@ searchInputValue = "";
 document.addEventListener("DOMContentLoaded", function () {
     // Call your functions here after the HTML has fully loaded
     var search = localStorage.getItem("searchValue");
-    console.log("local storage: " + search);
 
     if(search !== null) {
         // The search value exists in local storage
         otherSiteRequest = true;
         searchFromOther();
     }
-    console.log("otherSiteRequest: " + otherSiteRequest);
     if(otherSiteRequest === false) {
 
-        console.log("keydown Event Listener added");
         var inputElement = document.getElementById("search-bar");
         inputElement.addEventListener("keydown", function (event) {
     
@@ -49,7 +46,6 @@ function loadMoreResults() {
 }
 function searchFromOther() {
 
-    console.log("searchFromOther called");
     otherSiteRequest = false;
     var search = localStorage.getItem("searchValue");
     searchInputValue = search;
@@ -63,8 +59,6 @@ function searchArXiv(search, end) {
     return new Promise((resolve, reject) => {
         // Get the value from the search bar
         var searchValue = search;
-
-        console.log("searchValue: " + searchValue);
 
         // ArXiv API endpoint
         var apiUrl = "https://export.arxiv.org/api/query";
@@ -209,7 +203,6 @@ function saveHistory(title, pdf, authors) {
     paperHistory = paperHistory.filter(paper => paper[0] !== title || paper[1] !== pdf);
 
     // Add the new paper to the array
-    console.log("adding: " + newPaper);
     paperHistory.push(newPaper);
 
     // Store the updated array in localStorage
