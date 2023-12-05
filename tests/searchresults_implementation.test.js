@@ -128,7 +128,7 @@ describe('displayResults', () => {
 
 // INTEGRATION TESTING
 
-// SEARCH RESULTS INTEGRATION TEST
+// SEARCH FOR PAPERS INTEGRATION TEST
 
 global.fetch = require('jest-fetch-mock');
 
