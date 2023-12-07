@@ -1,4 +1,3 @@
-/* Nav Bar Code Start */
 .header{
     background-color:#2e2e2e;
     height:55px;
@@ -48,7 +47,6 @@ input::placeholder{
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
-/*Nav Bar Code End*/
 
 body{
     margin: 0px;

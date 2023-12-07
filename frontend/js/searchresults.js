@@ -93,9 +93,6 @@ function searchArXiv(search, end) {
         fetch(apiUrl + '?' + queryString)
             .then(response => response.text())
             .then(data => {
-                // print output to console
-                //console.log(data);
-
                 //Parse XML file
                 var parser = new DOMParser();
                 try {

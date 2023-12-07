@@ -6,7 +6,6 @@ inputElement.addEventListener("keydown", function (event) {
         var search = document.getElementById("search-bar").value;
         if (search !== null && search.trim() !== "") {
             localStorage.setItem("searchValue", search);
-            console.log("added search value to localStorage");
         }
 
         // Construct the URL for the destination HTML file
