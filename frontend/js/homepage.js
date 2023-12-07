@@ -5,19 +5,16 @@ getNewPapers(newCount);
 getViewedPapers();
 
 function addNewPapers() {
-    // console.log(newPapers);
-
     // clear list
     var ul = document.getElementById("new");
     while (ul.firstChild) {
         ul.removeChild(ul.firstChild);
-        console.log("removing");
     }
 
     // Iterate over the newPapers array in reverse order to show newest first
+    // Creating new paper to show
     for (let i = newPapers.length - 1; i >= 0; i--) {
 
-        console.log("Making New Published Papers");
         const paper = newPapers[i];
 
         var li = document.createElement("li");
@@ -51,14 +48,12 @@ function addNewPapers() {
 function addViewedPapers(papers) {
     var ul = document.getElementById("recent");
     if (!ul) {
-        // console.log('Element with ID "recent" not found.');
         return;
     }
 
     // clear list
     while (ul.firstChild) {
         ul.removeChild(ul.firstChild);
-        console.log("removing");
     }
 
     var limit = 0;
@@ -68,7 +63,7 @@ function addViewedPapers(papers) {
     else {
         limit = 0;
     }
-    
+    // Creating new paper to show
     for (let i = limit; i < papers.length; i++) {
 
         var li = document.createElement("li");
@@ -153,7 +148,6 @@ function getViewedPapers() {
 
     // Parse the string into an array
     var paperHistory = paperHistoryString ? JSON.parse(paperHistoryString) : [];
-    // console.log(paperHistory);
 
     var nothingElement = document.getElementById("nothing");
     if (nothingElement) {
@@ -187,7 +181,6 @@ function saveHistory(title, pdf, authors) {
     paperHistory = paperHistory.filter(paper => paper[0] !== title || paper[1] !== pdf);
 
     // Add the new paper to the array
-    console.log("adding: " + newPaper);
     paperHistory.push(newPaper);
 
     // Store the updated array in localStorage
@@ -223,7 +216,6 @@ if (searchBar !== null) {
             var search = document.getElementById("search").value;
             if (search !== null && search.trim() !== "") {
                 localStorage.setItem("searchValue", search);
-                console.log("added search value to localStorage");
             }
     
             // Construct the URL for the destination HTML file
