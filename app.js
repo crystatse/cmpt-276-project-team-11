@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
-// html pages routing
+// HTML pages routing
 app.get('index.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'index.html'));
 });
@@ -51,8 +51,8 @@ app.get('/public/index.html', (req, res) => {
 app.get('/public/about.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'public', 'about.html'));
 });
-// css pages routing
 
+// CSS pages routing
 app.get('/css/homepage.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'css', 'homepage.css'));
 });
@@ -69,8 +69,7 @@ app.get('/css/chatbot.css', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'css', 'chatbot.css'));
 });
 
-//images routing
-
+// Images routing
 app.get('/images/article_icon.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'images', 'article_icon.png'));
 });
@@ -91,8 +90,7 @@ app.get('/images/pencil-icon-white.png', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'images', 'pencil-icon-white.png'));
 });
 
-// js files
-
+// JS files routing
 app.get('/js/homepage.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'js', 'homepage.js'));
 });
@@ -110,23 +108,21 @@ app.get('/js/searchresults.js', (req, res) => {
 });
 
 
-
-
-// endpoint to get answers to user-inputted questions
+// Endpoint to retrieve AI responses to user-inputted questions
 app.post('/get-completions', async (req, res) => {
     
     try {
         const { userMessage, pdfURL } = req.body;
 
-        // fetch PDF data from URL
+        // Fetch PDF data from URL
         const response = await axios.get(pdfURL, { responseType: 'arraybuffer' });
         const data = response.data;
 
-        // parse PDF text
+        // Parse PDF text
         const pdfText = await pdf(data);
         const textContent = pdfText.text;
 
-        // splits text into chunks
+        // Split text into chunks
         function splitTextIntoChunks(text, chunkSize) {
             const chunks = [];
             for (let i = 0; i < text.length; i += chunkSize) {
@@ -138,13 +134,13 @@ app.post('/get-completions', async (req, res) => {
         const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        // returns error message if text exceeds token limit
+        // Return error message if text exceeds token limit
         if (textChunks.length > 40) { 
             res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
         } 
 
         else {
-            // generates chatbot response using GPT 3.5 turbo model (16k max tokens)
+            // Generate chatbot response using GPT 3.5 turbo model (16k max tokens)
             const chatCompletion = await openai.chat.completions.create({
                 model: 'gpt-3.5-turbo-16k',
                 messages: [
@@ -153,18 +149,16 @@ app.post('/get-completions', async (req, res) => {
                     { role: 'user', content: userMessage } 
                 ]
             });
-            // send answer as JSON response
             res.json({ content: chatCompletion.choices[0].message.content });
         }
     } catch (error) {
-        // log and handle errors
-        console.error('Server Error:', error); // Log the actual error to the console
+        console.error('Server Error:', error); 
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
-// endpoint to get summary of selected research paper
+// Endpoint to retrieve AI generated summary of selected research paper
 app.post('/get-summary', async (req, res) => {
     try {
         console.log("got to api route");
@@ -187,7 +181,7 @@ app.post('/get-summary', async (req, res) => {
         const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        // returns error message if text exceeds token limit
+        // Return error message if text exceeds token limit
         console.log(textChunks.length);
 
         if (textChunks.length > 40) { 
@@ -205,13 +199,13 @@ app.post('/get-summary', async (req, res) => {
             res.json({ content: textSummary.choices[0].message.content });
         }
     } catch (error) {
-        console.error('Server Error:', error); // Log the actual error to the console
+        console.error('Server Error:', error); 
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
-// endpoint to get citations for selected research paper
+// Endpoint to retrieve AI generated citations for selected research paper
 app.post('/get-citation', async (req, res) => {
     console.log("got to citation api route");
     try {
@@ -234,7 +228,7 @@ app.post('/get-citation', async (req, res) => {
         const chunkSize = 1000; 
         const textChunks = splitTextIntoChunks(textContent, chunkSize);
 
-        // returns error message if text exceeds token limit
+        // Return error message if text exceeds token limit
         if (textChunks.length > 40) { 
             res.json({content: "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding."});
         } 
@@ -251,13 +245,13 @@ app.post('/get-citation', async (req, res) => {
             res.json({ content: citationResponse.choices[0].message.content });
         }
     } catch (error) {
-        console.error('Server Error:', error); // Log the actual error to the console
+        console.error('Server Error:', error); 
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 
-// endpoint to get query for similar papers
+// Endpoint to get AI generated query for similar papers
 app.post('/get-similar-papers', async (req, res) => {
     
     try {
@@ -297,12 +291,8 @@ app.post('/get-similar-papers', async (req, res) => {
             res.json({ content: textSummary.choices[0].message.content });
         }
     } catch (error) {
-        console.error('Server Error:', error); // Log the actual error to the console
+        console.error('Server Error:', error); 
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-}); 

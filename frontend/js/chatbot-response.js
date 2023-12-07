@@ -7,17 +7,16 @@ const summarizeBtn = document.querySelector("#summarization");
 const citationBtn = document.querySelector('#citation');
 const similarPapersBtn = document.querySelector("#similar-papers");
 
-// navigation search bar funtionality
+// Navigation Search Bar 
 var inputElement = document.getElementById("search-bar");
 
 if (inputElement) {
     inputElement.addEventListener("keydown", function (event) {
-        // Check if the pressed key is Enter (key code 13)
+        // Check if the pressed key is Enter 
         if (event.keyCode === 13) {
             var search = document.getElementById("search-bar").value;
             if (search !== null && search.trim() !== "") {
                 localStorage.setItem("searchValue", search);
-                console.log("added search value to localStorage");
             }
 
             // Construct the URL for the destination HTML file
@@ -37,10 +36,9 @@ const SUMMARY_API_URL = '/get-summary';
 const CITATION_API_URL = '/get-citation';
 const SIMILAR_PAPERS_API_URL = '/get-similar-papers';
 
-// user input
 let userMessage;
 
-// arXiv pdf URL
+// Retrieve arXiv PDF URL from URL 
 const urlParams = new URLSearchParams(window.location.search);
 const pdfURL = urlParams.get('pdfURL');
 
@@ -50,20 +48,19 @@ if (pdfURL) {
     pdfEmbed.src = decodeURIComponent(pdfURL);
 }
 
-// creates chat message list items
+// Create Chat List Items
 const createChatLi = (message, className) => {
     const chatLi = document.createElement("li");
     chatLi.classList.add("chat", className);
-    // replace newlines with line breaks in html
     let chatContent = `<p>${message.replace(/\n/g, '<br>')}</p>`;
     chatLi.innerHTML = chatContent;
     return chatLi;
 };
 
-// generates response using server API
+// Generate Response for User-Inputted Question
 const generateResponse = async (userMessage) => {
     try {
-        displayBubbles(); // display loading bubbles
+        displayBubbles(); 
 
         const requestOptions = {
             method: 'POST',
@@ -75,60 +72,54 @@ const generateResponse = async (userMessage) => {
 
         // send POST request to API endpoint
         const response = await fetch(COMPLETION_API_URL, requestOptions);
-        const responseData = await response.json(); // parse the response as JSON
+        const responseData = await response.json(); 
 
         if (response.ok) {
-            // update the chatbox with the generated message
+            // Update the chatbox div with AI response
             const generatedMessage = responseData.content;
             chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
             chatmessages.scrollTo(0, chatbox.scrollHeight);
         } else {
-            // log error
             console.error('Error:', response.status, response.statusText);
         }
 
-        hideBubbles(); // hide loading bubbles
+        hideBubbles(); 
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
-// displays loading bubbles before generating AI response
+// Display loading bubbles 
 function displayBubbles() {
     document.querySelector("#loading-container").style.display="block";
 }
 
-// hides loading bubbles after AI response has been displayed
+// Hide loading bubbles 
 function hideBubbles() {
     document.querySelector("#loading-container").style.display="none";
 }
 
-// handles user input and initiates chat
+// Displays user message and generates response
 const handleChat = () => {
     userMessage = chatInput.value.trim();
     if (!userMessage) return;
 
-    // add user message to the chatbox
+    // Add user message to chatbox div
     chatbox.appendChild(createChatLi(userMessage, "outgoing"));
     chatmessages.scrollTo(0, chatbox.scrollHeight);
 
-    // clear input field
     chatInput.value = '';
 
-    // autoscroll
     requestAnimationFrame(() => {
         generateResponse(userMessage);
-
-        // scroll to the bottom again after receiving the incoming message
         chatmessages.scrollTo(0, chatbox.scrollHeight);
     });
 };
 
 const summarize = async () => {
     try {
-        displayBubbles(); // display loading bubbles
+        displayBubbles(); 
 
-        console.log("got to summarize function");
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -137,31 +128,30 @@ const summarize = async () => {
             body: JSON.stringify({ pdfURL }),
         };
 
-        // send POST request to API endpoint
+        // Send POST request to API endpoint
         const response = await fetch(SUMMARY_API_URL, requestOptions);
-        const responseData = await response.json(); // parse the response as JSON
+        const responseData = await response.json(); 
 
         if (response.ok) {
-            // update the chatbox with the generated message
+            // Update chatbox with the generated message
             const generatedMessage = responseData.content;
             chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
             chatmessages.scrollTo(0, chatbox.scrollHeight);
         } else {
-            // log error
             console.error('Error:', response.status, response.statusText);
         }
 
-        hideBubbles(); // hide loading bubbles
+        hideBubbles(); 
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
 function addNewLinesAfterCitations(text) {
-    // Define the pattern for identifying the citation styles and capturing them
+    // Define the pattern for identifying the citation styles
     const pattern = /(MLA|IEEE|Chicago)\sCitation:\s.*?\d{4}\./g;
     
-    // Replace the identified citation styles with the same style preceded by a newline character
+    // Replace the citation styles with the same style preceded by '\n'
     const formattedText = text.replace(pattern, '\n\n$&');
     
     return formattedText;
@@ -169,7 +159,6 @@ function addNewLinesAfterCitations(text) {
 
 
 const cite = async () => {
-    console.log("got to cite function");
     try {
         displayBubbles();
         const requestOptions = {
@@ -180,18 +169,17 @@ const cite = async () => {
             body: JSON.stringify({ pdfURL }),
         };
 
-        // send POST request to API endpoint
+        // Send POST request to API endpoint
         const response = await fetch(CITATION_API_URL, requestOptions);
         const responseData = await response.json(); // parse the response as JSON
 
         if (response.ok) {
-            // update the chatbox with the generated message
+            // Update the chatbox with the generated message
             const generatedMessage = responseData.content;
             const formattedCitations = addNewLinesAfterCitations(generatedMessage);
             chatbox.appendChild(createChatLi(formattedCitations, "incoming"));
             chatmessages.scrollTo(0, chatbox.scrollHeight);
         } else {
-            // log error
             console.error('Error:', response.status, response.statusText);
         }
         hideBubbles();
@@ -201,7 +189,6 @@ const cite = async () => {
 }
 
 const similarPapers = async () => {
-    console.log("got to similar papers function");
     try {
         displayBubbles();
         const requestOptions = {
@@ -209,15 +196,14 @@ const similarPapers = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ pdfURL }), // Assuming pdfURL is declared elsewhere
+            body: JSON.stringify({ pdfURL }), 
         };
 
-        // send POST request to API endpoint
+        // Send POST request to API endpoint
         const response = await fetch(SIMILAR_PAPERS_API_URL, requestOptions);
-        const responseData = await response.json(); // parse the response as JSON
+        const responseData = await response.json(); 
         
         if (response.ok) {
-            // use the generated message as a query to be searched
             const generatedMessage = responseData.content;
             if (generatedMessage === "We apologize for the inconvenience, but it seems the research paper you provided is too lengthy for our current processing capabilities. We kindly recommend considering a shorter paper or consulting alternative sources. Thank you for your understanding.") {
                 chatbox.appendChild(createChatLi(generatedMessage, "incoming"));
@@ -225,7 +211,6 @@ const similarPapers = async () => {
                 hideBubbles();
             } else {
                 localStorage.setItem("searchValue", generatedMessage);
-                console.log("added search value to localStorage");
     
                 // Construct the URL for the destination HTML file
                 const destinationURL = "../public/searchresults.html";
@@ -234,7 +219,6 @@ const similarPapers = async () => {
                 window.location.href = destinationURL;
             }
         } else {
-            // log error
             console.error('Error:', response.status, response.statusText);
         }
         hideBubbles();
@@ -243,7 +227,7 @@ const similarPapers = async () => {
     }
 };
 
-// event listeners
+// Event listeners
 if (sendChatBtn) {
     sendChatBtn.addEventListener("click", handleChat);
 }
