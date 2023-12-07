@@ -296,3 +296,4 @@ app.post('/get-similar-papers', async (req, res) => {
     }
 });
 
+app.listen(port, () => {}); 
