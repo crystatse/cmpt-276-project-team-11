@@ -6,11 +6,12 @@ For this project, we will be using HTML, CSS, and Javascript for the frontend co
 
 ## Setup Instructions
 To run the application locally:
-1. Create a .env file and add the OpenAI API key as: "API_KEY=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"
-2. Make sure NodeJs is v18 or higher*
-3. Go to terminal and run command 'npm install' to install dependencies
-4. Run command 'node app.js' to start server
-5. Open http://localhost:3002/ on your local browser to view the website
+1. Create a .env file
+2. Add the following line to the .env file, replacing YOUR_API_KEY_HERE with your actual OpenAI API key: "API_KEY=YOUR_API_KEY_HERE"
+3. Make sure NodeJs is v18 or higher*
+4. Go to terminal and run command 'npm install' to install dependencies
+5. Run command 'node app.js' to start server
+6. Open http://localhost:3002/ on your local browser to view the website
 
 Now, the application should be fully functional with its OpenAI chatbot features.
 
